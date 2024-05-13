@@ -65,6 +65,7 @@ fn fit_linear_reg_linfa() -> LinReg {
 }
 
 #[extendr]
+/// @export
 fn predict_linear_reg_linfa(model: &LinReg) -> Doubles {
     let preds = model.model.predict(&diabetes());
     let preds = preds.into_raw_vec();

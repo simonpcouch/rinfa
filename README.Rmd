@@ -1,5 +1,6 @@
 ---
 output: github_document
+format: gfm
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -29,4 +30,15 @@ You can install the development version of rinfa from [GitHub](https://github.co
 ``` r
 # install.packages("devtools")
 devtools::install_github("simonpcouch/rinfa")
+```
+
+
+## Example
+
+This uses the build in diabetes dataset
+
+```{r}
+library(rinfa)
+mod <- fit_linear_reg_linfa()
+predict_linear_reg_linfa(mod)
 ```
