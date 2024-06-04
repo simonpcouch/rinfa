@@ -6,22 +6,15 @@
 # This file was created with the following call:
 #   .Call("wrap__make_rinfa_wrappers", use_symbols = TRUE, package_name = "rinfa")
 
-#' @docType package
 #' @usage NULL
 #' @useDynLib rinfa, .registration = TRUE
 NULL
 
-#' Fit a linear regression model and return a pointer to it.
-#' @export
+#' Return string `"Hello world!"` to R.
 fit_linear_reg_linfa <- function() .Call(wrap__fit_linear_reg_linfa)
 
-#' Given a pointer to a model and data, return predictions from the model.
 #' @export
-predict_linear_reg_linfa <- function(pointer) .Call(wrap__predict_linear_reg_linfa, pointer)
-
-#' Return string `"Hello world!"` to R.
-#' @export
-hello_world <- function() .Call(wrap__hello_world)
+predict_linear_reg_linfa <- function(model) .Call(wrap__predict_linear_reg_linfa, model)
 
 
 # nolint end

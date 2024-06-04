@@ -1,17 +1,17 @@
 use extendr_api::prelude::*;
-use linfa::traits::Fit;
-use linfa::prelude::Predict;
-use linfa_linear::LinearRegression;
-use linfa_linear::FittedLinearRegression;
-use linfa_datasets::diabetes;
 use extendr_api::wrapper::ExternalPtr;
 use extendr_api::TryInto;
+use linfa::prelude::Predict;
+use linfa::traits::Fit;
 use linfa::DatasetBase;
+use linfa_datasets::diabetes;
+use linfa_linear::FittedLinearRegression;
+use linfa_linear::LinearRegression;
 use ndarray::Array;
 use ndarray::Array2;
 use ndarray::ArrayBase;
-use ndarray::OwnedRepr;
 use ndarray::Dim;
+use ndarray::OwnedRepr;
 use std::ops::Deref;
 
 // Define a wrapper struct that holds the value and implements Deref
@@ -33,40 +33,43 @@ impl<T> Deref for DeferredDeref<T> {
     }
 }
 
-/// Return string `"Hello world!"` to R.
-/// @export
-#[extendr]
-fn hello_world() -> &'static str {
-    "Hello world!"
+pub struct LinReg {
+    pub model: FittedLinearRegression<f64>,
 }
 
-/// Fit a linear regression model and return a pointer to it.
-/// @export
 #[extendr]
-fn fit_linear_reg_linfa() -> ExternalPtr<FittedLinearRegression<f64>> {
+impl LinReg {}
+
+impl From<FittedLinearRegression<f64>> for LinReg {
+    fn from(value: FittedLinearRegression<f64>) -> Self {
+        LinReg { model: value }
+    }
+}
+
+/// Return string `"Hello world!"` to R.
+// /// @export
+// #[extendr]
+// fn hello_world() -> &'static str {
+//     "Hello world!"
+// }
+
+// /// Fit a linear regression model and return a pointer to it.
+// /// @export
+#[extendr]
+fn fit_linear_reg_linfa() -> LinReg {
     let dataset = diabetes();
     let model = LinearRegression::default().fit(&dataset).unwrap();
-
-    let model_deferred = DeferredDeref::new(model);
-
-    ExternalPtr::new(model)
+    // print it out for funs
+    rprintln!("{:?}", model);
+    LinReg::from(model)
 }
 
-
-
-/// Given a pointer to a model and data, return predictions from the model.
-/// @export
 #[extendr]
-fn predict_linear_reg_linfa(pointer: ExternalPtr<FittedLinearRegression<f64>>) -> Robj {
-    let model: FittedLinearRegression<f64> = pointer.try_into().unwrap();
-    // let model: FittedLinearRegression<f64> = unsafe {*pointer};
-    let pred: Vec<f64> = model.predict(&diabetes()).into_raw_vec();
-    // let robj: Robj = pointer.into();
-    // let model: FittedLinearRegression<f64> = robj.try_into();
-    // let pred: Vec<f64> = model.predict(&diabetes()).into_raw_vec();
-
-    // pred
-    r!(pred)
+/// @export
+fn predict_linear_reg_linfa(model: &LinReg) -> Doubles {
+    let preds = model.model.predict(&diabetes());
+    let preds = preds.into_raw_vec();
+    Doubles::from_values(preds)
 }
 
 // Macro to generate exports.
@@ -76,5 +79,5 @@ extendr_module! {
     mod rinfa;
     fn fit_linear_reg_linfa;
     fn predict_linear_reg_linfa;
-    fn hello_world;
+    // fn hello_world;
 }
