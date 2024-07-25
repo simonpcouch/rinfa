@@ -65,8 +65,7 @@ fn fit_linear_reg_linfa(x: Vec<f64>, y: Vec<f64>, n_features: i32) -> LinReg {
         .with_feature_names((0..n_features).map(|i| format!("feature_{}", i)).collect());
 
     let model = LinearRegression::default().fit(&dataset).unwrap();
-    // print it out for funs
-    rprintln!("{:?}", model);
+
     LinReg::from(model)
 }
 
