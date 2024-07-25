@@ -630,7 +630,7 @@ dependencies = [
  "linfa",
  "linfa-datasets",
  "linfa-linear",
- "ndarray 0.13.1",
+ "ndarray 0.15.6",
  "ndarray-csv 0.4.1",
 ]
 

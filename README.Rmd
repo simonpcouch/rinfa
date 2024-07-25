@@ -32,13 +32,12 @@ You can install the development version of rinfa from [GitHub](https://github.co
 devtools::install_github("simonpcouch/rinfa")
 ```
 
-
 ## Example
-
-This uses the build in diabetes dataset
 
 ```{r}
 library(rinfa)
-mod <- fit_linear_reg_linfa()
-predict_linear_reg_linfa(mod)
+
+mod <- fit_linear_reg_linfa(x = rnorm(200), y = rnorm(100), n_features = 2)
+
+predict_linear_reg_linfa(mod, x = rnorm(20), n_features = 2)
 ```

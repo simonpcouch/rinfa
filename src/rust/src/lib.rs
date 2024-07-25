@@ -4,10 +4,12 @@ use extendr_api::TryInto;
 use linfa::prelude::Predict;
 use linfa::traits::Fit;
 use linfa::DatasetBase;
+use linfa::Dataset;
 use linfa_datasets::diabetes;
 use linfa_linear::FittedLinearRegression;
 use linfa_linear::LinearRegression;
 use ndarray::Array;
+use ndarray::Array1;
 use ndarray::Array2;
 use ndarray::ArrayBase;
 use ndarray::Dim;
@@ -54,10 +56,22 @@ impl From<FittedLinearRegression<f64>> for LinReg {
 // }
 
 // /// Fit a linear regression model and return a pointer to it.
-// /// @export
+/// @export
 #[extendr]
-fn fit_linear_reg_linfa() -> LinReg {
-    let dataset = diabetes();
+fn fit_linear_reg_linfa(x: Vec<f64>, y: Vec<f64>, n_features: i32) -> LinReg {
+    let n_features = n_features as usize;
+
+    // Convert Vec<f64> to Array2 for x
+    let x = Array2::from_shape_vec((x.len() / n_features, n_features), x)
+        .expect("Failed to reshape x");
+
+    // Convert Vec<f64> to Array1 for y
+    let y = Array1::from(y);
+
+    // Create a Dataset
+    let dataset = Dataset::new(x, y)
+        .with_feature_names((0..n_features).map(|i| format!("feature_{}", i)).collect());
+
     let model = LinearRegression::default().fit(&dataset).unwrap();
     // print it out for funs
     rprintln!("{:?}", model);
@@ -66,8 +80,14 @@ fn fit_linear_reg_linfa() -> LinReg {
 
 #[extendr]
 /// @export
-fn predict_linear_reg_linfa(model: &LinReg) -> Doubles {
-    let preds = model.model.predict(&diabetes());
+fn predict_linear_reg_linfa(model: &LinReg, x: Vec<f64>, n_features: i32) -> Doubles {
+    let n_features = n_features as usize;
+
+    // Convert Vec<f64> to Array2 for x
+    let x = Array2::from_shape_vec((x.len() / n_features, n_features), x)
+        .expect("Failed to reshape x");
+
+    let preds = model.model.predict(&x);
     let preds = preds.into_raw_vec();
     Doubles::from_values(preds)
 }
