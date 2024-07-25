@@ -1,19 +1,11 @@
 use extendr_api::prelude::*;
-use extendr_api::wrapper::ExternalPtr;
-use extendr_api::TryInto;
 use linfa::prelude::Predict;
 use linfa::traits::Fit;
-use linfa::DatasetBase;
 use linfa::Dataset;
-use linfa_datasets::diabetes;
 use linfa_linear::FittedLinearRegression;
 use linfa_linear::LinearRegression;
-use ndarray::Array;
 use ndarray::Array1;
 use ndarray::Array2;
-use ndarray::ArrayBase;
-use ndarray::Dim;
-use ndarray::OwnedRepr;
 use std::ops::Deref;
 
 // Define a wrapper struct that holds the value and implements Deref
