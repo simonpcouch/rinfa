@@ -27,12 +27,31 @@ devtools::install_github("simonpcouch/rinfa")
 ## Example
 
 ``` r
+x <- matrix(rnorm(3e6), ncol = 3)
+y <- rnorm(1e6)
+
+dat <- cbind(as.data.frame(x), y)
+
+system.time(
+  lm(y ~ ., dat)
+)
+#>    user  system elapsed 
+#>   0.136   0.020   0.156
+
+system.time(
+  # lm()'s speedy friend
+  lm.fit(x, y)
+)
+#>    user  system elapsed 
+#>   0.038   0.002   0.040
+
 library(rinfa)
 
-mod <- fit_linear_reg_linfa(x = rnorm(200), y = rnorm(100), n_features = 2)
-#> FittedLinearRegression { intercept: 0.11565707451398831, params: [-0.07188344102651079, -0.19543392753376385], shape=[2], strides=[1], layout=CFcf (0xf), const ndim=1 }
+x_rinfa <- c(x)
 
-predict_linear_reg_linfa(mod, x = rnorm(20), n_features = 2)
-#>  [1] -0.01300691  0.19532300  0.17567218  0.13852921 -0.04187162 -0.02093193
-#>  [7]  0.56993723  0.02773395 -0.00719894  0.04849419
+system.time({
+  fit_linear_reg_linfa(x_rinfa, y, n_features = 3)
+})
+#>    user  system elapsed 
+#>   0.012   0.003   0.016
 ```
