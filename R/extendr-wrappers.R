@@ -11,10 +11,11 @@
 NULL
 
 #' Return string `"Hello world!"` to R.
-fit_linear_reg_linfa <- function() .Call(wrap__fit_linear_reg_linfa)
+#' @export
+fit_linear_reg_linfa <- function(x, y, n_features) .Call(wrap__fit_linear_reg_linfa, x, y, n_features)
 
 #' @export
-predict_linear_reg_linfa <- function(model) .Call(wrap__predict_linear_reg_linfa, model)
+predict_linear_reg_linfa <- function(model, x, n_features) .Call(wrap__predict_linear_reg_linfa, model, x, n_features)
 
 
 # nolint end

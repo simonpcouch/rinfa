@@ -4,7 +4,7 @@
 \alias{fit_linear_reg_linfa}
 \title{Return string \code{"Hello world!"} to R.}
 \usage{
-fit_linear_reg_linfa()
+fit_linear_reg_linfa(x, y, n_features)
 }
 \description{
 Return string \code{"Hello world!"} to R.
