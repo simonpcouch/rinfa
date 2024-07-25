@@ -2,10 +2,10 @@
 % Please edit documentation in R/extendr-wrappers.R
 \name{fit_linear_reg_linfa}
 \alias{fit_linear_reg_linfa}
-\title{Return string \code{"Hello world!"} to R.}
+\title{Fit a linear regression model and return a pointer to it.}
 \usage{
 fit_linear_reg_linfa(x, y, n_features)
 }
 \description{
-Return string \code{"Hello world!"} to R.
+Fit a linear regression model and return a pointer to it.
 }

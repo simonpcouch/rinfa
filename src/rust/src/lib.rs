@@ -40,14 +40,7 @@ impl From<FittedLinearRegression<f64>> for LinReg {
     }
 }
 
-/// Return string `"Hello world!"` to R.
-// /// @export
-// #[extendr]
-// fn hello_world() -> &'static str {
-//     "Hello world!"
-// }
-
-// /// Fit a linear regression model and return a pointer to it.
+/// Fit a linear regression model and return a pointer to it.
 /// @export
 #[extendr]
 fn fit_linear_reg_linfa(x: Vec<f64>, y: Vec<f64>, n_features: i32) -> LinReg {

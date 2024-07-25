@@ -10,7 +10,7 @@
 #' @useDynLib rinfa, .registration = TRUE
 NULL
 
-#' Return string `"Hello world!"` to R.
+#' Fit a linear regression model and return a pointer to it.
 #' @export
 fit_linear_reg_linfa <- function(x, y, n_features) .Call(wrap__fit_linear_reg_linfa, x, y, n_features)
 
