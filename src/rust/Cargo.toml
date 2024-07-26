@@ -12,6 +12,7 @@ name = 'rinfa'
 extendr-api = { git = "https://github.com/extendr/extendr" }
 linfa = '*'
 linfa-linear = '*'
+linfa-trees = "0.7.0"
 linfa-datasets = { version = "0.7", features = ["diabetes"] }
 ndarray = "=0.15.6"
 ndarray-csv = "0.4"

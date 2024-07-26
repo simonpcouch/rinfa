@@ -17,5 +17,40 @@ fit_linear_reg_linfa <- function(x, y, n_features) .Call(wrap__fit_linear_reg_li
 #' @export
 predict_linear_reg_linfa <- function(model, x, n_features) .Call(wrap__predict_linear_reg_linfa, model, x, n_features)
 
+#' Fit and predict with a decision tree
+#'
+#' This function currently only supports classification.
+#'
+#' @param y A vector of integers representing classes.
+#' @param x A real-valued vector with length `y` times some
+#'   whole-number multiple `n_features`.
+#' @param n_features Integer giving the number of features in x.
+#' @param model Output from `fit_decision_tree()`.
+#' @param max_depth Integer.
+#'
+#' @returns
+#'
+#' * For `fit_decision_tree()`, an external pointer to a Rust object.
+#' * For `predict_decision_tree()`, an integer vector of class predictions.
+#'
+#' @examples
+#' x <- rnorm(3e5)
+#' y <- sample(1:4, 1e5, replace = TRUE)
+#'
+#' mod <- fit_decision_tree(x, y, n_features = 3L, max_depth = 5L)
+#'
+#' mod
+#'
+#' preds <- predict_decision_tree(mod, x[1:12], 3)
+#'
+#' preds
+#'
+#' @export
+fit_decision_tree <- function(x, y, n_features, max_depth) .Call(wrap__fit_decision_tree, x, y, n_features, max_depth)
+
+#' @export
+#' @rdname fit_decision_tree
+predict_decision_tree <- function(model, x, n_features) .Call(wrap__predict_decision_tree, model, x, n_features)
+
 
 # nolint end

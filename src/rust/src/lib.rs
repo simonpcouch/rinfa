@@ -1,4 +1,5 @@
 mod linear;
+mod trees;
 
 use extendr_api::prelude::*;
 use std::ops::Deref;
@@ -28,4 +29,5 @@ impl<T> Deref for DeferredDeref<T> {
 extendr_module! {
     mod rinfa;
     use linear;
+    use trees;
 }
