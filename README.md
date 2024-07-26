@@ -27,8 +27,8 @@ devtools::install_github("simonpcouch/rinfa")
 ## Example
 
 ``` r
-x <- matrix(rnorm(3e6), ncol = 3)
-y <- rnorm(1e6)
+x <- matrix(rnorm(3e7), ncol = 3)
+y <- rnorm(1e7)
 
 dat <- cbind(as.data.frame(x), y)
 
@@ -36,14 +36,14 @@ system.time(
   lm(y ~ ., dat)
 )
 #>    user  system elapsed 
-#>   0.141   0.018   0.159
+#>   1.042   0.261   1.359
 
 system.time(
   # lm()'s speedy friend
   lm.fit(x, y)
 )
 #>    user  system elapsed 
-#>   0.044   0.003   0.047
+#>   0.383   0.039   0.421
 
 library(rinfa)
 
@@ -51,5 +51,5 @@ system.time({
   linfa_linear_reg(x, y)
 })
 #>    user  system elapsed 
-#>   0.028   0.008   0.037
+#>   0.175   0.078   0.255
 ```

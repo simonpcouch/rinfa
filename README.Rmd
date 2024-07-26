@@ -35,8 +35,8 @@ devtools::install_github("simonpcouch/rinfa")
 ## Example
 
 ```{r}
-x <- matrix(rnorm(3e6), ncol = 3)
-y <- rnorm(1e6)
+x <- matrix(rnorm(3e7), ncol = 3)
+y <- rnorm(1e7)
 
 dat <- cbind(as.data.frame(x), y)
 
