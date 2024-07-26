@@ -4,7 +4,14 @@
 \alias{fit_decision_tree}
 \title{Fit and predict with a decision tree}
 \usage{
-fit_decision_tree(x, y, n_features, max_depth)
+fit_decision_tree(
+  x,
+  y,
+  n_features,
+  min_impurity_decrease,
+  max_depth,
+  min_weight_split
+)
 }
 \arguments{
 \item{x}{A real-valued vector with length \code{y} times some

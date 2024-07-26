@@ -45,7 +45,9 @@ impl From<DecisionTree<f64, usize>> for linfa_decision_tree {
 /// preds
 ///
 #[extendr]
-pub fn fit_decision_tree(x: Vec<f64>, y: Vec<i32>, n_features: i32, max_depth: i32) -> linfa_decision_tree {
+pub fn fit_decision_tree(x: Vec<f64>, y: Vec<i32>, n_features: i32,
+                         min_impurity_decrease: f64,
+                         max_depth: i32, min_weight_split: f32) -> linfa_decision_tree {
     let n_features = n_features as usize;
 
     // Convert Vec<f64> to Array2 for x
@@ -63,6 +65,8 @@ pub fn fit_decision_tree(x: Vec<f64>, y: Vec<i32>, n_features: i32, max_depth: i
 
     let model = DecisionTree::params()
         .max_depth(Some(max_depth as usize))
+        .min_weight_split(min_weight_split)
+        .min_impurity_decrease(min_impurity_decrease)
         .fit(&dataset)
         .unwrap();
 

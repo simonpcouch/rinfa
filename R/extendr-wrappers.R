@@ -42,7 +42,7 @@ predict_linear_reg <- function(model, x, n_features) .Call(wrap__predict_linear_
 #'
 #' preds
 #'
-fit_decision_tree <- function(x, y, n_features, max_depth) .Call(wrap__fit_decision_tree, x, y, n_features, max_depth)
+fit_decision_tree <- function(x, y, n_features, min_impurity_decrease, max_depth, min_weight_split) .Call(wrap__fit_decision_tree, x, y, n_features, min_impurity_decrease, max_depth, min_weight_split)
 
 predict_decision_tree <- function(model, x, n_features) .Call(wrap__predict_decision_tree, model, x, n_features)
 

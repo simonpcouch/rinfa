@@ -13,13 +13,22 @@
 #'
 #' predict(m, matrix(rnorm(12), ncol = 3))
 #' @export
-linfa_decision_tree <- function(x, y, tree_depth = 7L) {
+linfa_decision_tree <- function(x, y, cost_complexity = 0.00001,
+                                tree_depth = 7L, min_n = 4) {
   check_x(x, y)
   check_y(y, "classification")
 
   check_integer(tree_depth)
 
-  fit <- fit_decision_tree(c(x), y, ncol(x), max_depth = tree_depth)
+  fit <-
+    fit_decision_tree(
+      c(x),
+      y,
+      ncol(x),
+      min_impurity_decrease = cost_complexity,
+      max_depth = tree_depth,
+      min_weight_split = min_n
+    )
 
   structure(
     list(fit = fit, ptype = vctrs::vec_slice(x, 0)),

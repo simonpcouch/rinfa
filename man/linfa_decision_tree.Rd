@@ -4,14 +4,20 @@
 \alias{linfa_decision_tree}
 \title{Decision trees with linfa}
 \usage{
-linfa_decision_tree(x, y, tree_depth = 7L)
+linfa_decision_tree(x, y, cost_complexity = 1e-05, tree_depth = 7L, min_n = 4)
 }
 \arguments{
 \item{x}{A numeric matrix of predictors.}
 
 \item{y}{An integer vector of outcome values.}
 
+\item{cost_complexity}{A positive number for the the cost/complexity
+parameter (a.k.a. \code{Cp}) used by CART models (specific engines only).}
+
 \item{tree_depth}{An integer for maximum depth of the tree.}
+
+\item{min_n}{An integer for the minimum number of data points
+in a node that are required for the node to be split further.}
 }
 \description{
 Decision trees with linfa
