@@ -14,6 +14,7 @@ linfa = '*'
 linfa-bayes = "0.7.0"
 linfa-linear = "0.7.0"
 linfa-logistic = "0.7.0"
+linfa-svm = "0.7.0"
 linfa-trees = "0.7.0"
 linfa-datasets = { version = "0.7", features = ["diabetes"] }
 ndarray = "=0.15.6"

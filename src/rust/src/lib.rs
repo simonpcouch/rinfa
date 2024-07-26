@@ -3,6 +3,7 @@
 mod bayes;
 mod linear;
 mod logistic;
+mod svm;
 mod trees;
 
 use extendr_api::prelude::*;
@@ -15,5 +16,6 @@ extendr_module! {
     use bayes;
     use linear;
     use logistic;
+    use svm;
     use trees;
 }

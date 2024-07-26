@@ -314,6 +314,15 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b1a46d1a171d865aa5f83f92695765caa047a9b4cbae2cbf37dbd613a793fd4c"
 
 [[package]]
+name = "kdtree"
+version = "0.6.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "80ee359328fc9087e9e3fc0a4567c4dd27ec69a127d6a70e8d9dd22845b8b1a2"
+dependencies = [
+ "num-traits",
+]
+
+[[package]]
 name = "lazy_static"
 version = "1.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -395,6 +404,19 @@ dependencies = [
 ]
 
 [[package]]
+name = "linfa-kernel"
+version = "0.7.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "4ad080970df2efcfd0314ab03eafc50cd60994b4b29741bf93f4905c18abd55f"
+dependencies = [
+ "linfa",
+ "linfa-nn",
+ "ndarray 0.15.6",
+ "num-traits",
+ "sprs",
+]
+
+[[package]]
 name = "linfa-linalg"
 version = "0.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -431,6 +453,36 @@ dependencies = [
  "linfa",
  "ndarray 0.15.6",
  "ndarray-stats",
+ "num-traits",
+ "thiserror",
+]
+
+[[package]]
+name = "linfa-nn"
+version = "0.7.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c1945b1a1435e885b4743dad94f9676c0bf65d6cce102e96c753f93b4cfe68d0"
+dependencies = [
+ "kdtree",
+ "linfa",
+ "ndarray 0.15.6",
+ "ndarray-stats",
+ "noisy_float",
+ "num-traits",
+ "order-stat",
+ "thiserror",
+]
+
+[[package]]
+name = "linfa-svm"
+version = "0.7.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a38314e0d0bd01f4b165a2c8dbba9e9feaabf8452932553c1d375b5957596477"
+dependencies = [
+ "linfa",
+ "linfa-kernel",
+ "ndarray 0.15.6",
+ "ndarray-rand",
  "num-traits",
  "thiserror",
 ]
@@ -640,6 +692,12 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "3fdb12b2476b595f9358c5161aa467c2438859caa136dec86c26fdd2efe17b92"
 
 [[package]]
+name = "order-stat"
+version = "0.1.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "efa535d5117d3661134dbf1719b6f0ffe06f2375843b13935db186cd094105eb"
+
+[[package]]
 name = "paste"
 version = "1.0.14"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -793,6 +851,7 @@ dependencies = [
  "linfa-datasets",
  "linfa-linear",
  "linfa-logistic",
+ "linfa-svm",
  "linfa-trees",
  "ndarray 0.15.6",
  "ndarray-csv 0.4.1",
