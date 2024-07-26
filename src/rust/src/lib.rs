@@ -1,6 +1,7 @@
 #![allow(non_camel_case_types)]
 
 mod linear;
+mod logistic;
 mod trees;
 
 use extendr_api::prelude::*;
@@ -11,5 +12,6 @@ use extendr_api::prelude::*;
 extendr_module! {
     mod rinfa;
     use linear;
+    use logistic;
     use trees;
 }

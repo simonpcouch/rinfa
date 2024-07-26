@@ -1,7 +1,7 @@
 #' Decision trees with linfa
 #'
 #' @param x A numeric matrix of predictors.
-#' @param y An integer vector of outcome values.
+#' @param y A numeric vector of outcome values.
 # @inheritParams parsnip::linear_reg
 #'
 #' @examples

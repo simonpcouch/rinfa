@@ -9,7 +9,7 @@ linfa_linear_reg(x, y)
 \arguments{
 \item{x}{A numeric matrix of predictors.}
 
-\item{y}{An integer vector of outcome values.}
+\item{y}{A numeric vector of outcome values.}
 }
 \description{
 Decision trees with linfa
