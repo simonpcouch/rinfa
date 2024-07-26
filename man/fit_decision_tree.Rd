@@ -2,12 +2,9 @@
 % Please edit documentation in R/extendr-wrappers.R
 \name{fit_decision_tree}
 \alias{fit_decision_tree}
-\alias{predict_decision_tree}
 \title{Fit and predict with a decision tree}
 \usage{
 fit_decision_tree(x, y, n_features, max_depth)
-
-predict_decision_tree(model, x, n_features)
 }
 \arguments{
 \item{x}{A real-valued vector with length \code{y} times some

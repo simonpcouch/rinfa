@@ -10,12 +10,9 @@
 #' @useDynLib rinfa, .registration = TRUE
 NULL
 
-#' Fit a linear regression model and return a pointer to it.
-#' @export
-fit_linear_reg_linfa <- function(x, y, n_features) .Call(wrap__fit_linear_reg_linfa, x, y, n_features)
+fit_linear_reg <- function(x, y, n_features) .Call(wrap__fit_linear_reg, x, y, n_features)
 
-#' @export
-predict_linear_reg_linfa <- function(model, x, n_features) .Call(wrap__predict_linear_reg_linfa, model, x, n_features)
+predict_linear_reg <- function(model, x, n_features) .Call(wrap__predict_linear_reg, model, x, n_features)
 
 #' Fit and predict with a decision tree
 #'
@@ -45,11 +42,8 @@ predict_linear_reg_linfa <- function(model, x, n_features) .Call(wrap__predict_l
 #'
 #' preds
 #'
-#' @export
 fit_decision_tree <- function(x, y, n_features, max_depth) .Call(wrap__fit_decision_tree, x, y, n_features, max_depth)
 
-#' @export
-#' @rdname fit_decision_tree
 predict_decision_tree <- function(model, x, n_features) .Call(wrap__predict_decision_tree, model, x, n_features)
 
 

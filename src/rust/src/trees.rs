@@ -3,16 +3,16 @@ use linfa::prelude::*;
 use linfa_trees::DecisionTree;
 use ndarray::{Array1, Array2};
 
-pub struct DecTree {
+pub struct linfa_decision_tree {
     pub model: DecisionTree<f64, usize>,
 }
 
 #[extendr]
-impl DecTree {}
+impl linfa_decision_tree {}
 
-impl From<DecisionTree<f64, usize>> for DecTree {
+impl From<DecisionTree<f64, usize>> for linfa_decision_tree {
     fn from(value: DecisionTree<f64, usize>) -> Self {
-        DecTree { model: value }
+        linfa_decision_tree { model: value }
     }
 }
 
@@ -44,9 +44,8 @@ impl From<DecisionTree<f64, usize>> for DecTree {
 ///
 /// preds
 ///
-/// @export
 #[extendr]
-pub fn fit_decision_tree(x: Vec<f64>, y: Vec<i32>, n_features: i32, max_depth: i32) -> DecTree {
+pub fn fit_decision_tree(x: Vec<f64>, y: Vec<i32>, n_features: i32, max_depth: i32) -> linfa_decision_tree {
     let n_features = n_features as usize;
 
     // Convert Vec<f64> to Array2 for x
@@ -65,13 +64,11 @@ pub fn fit_decision_tree(x: Vec<f64>, y: Vec<i32>, n_features: i32, max_depth: i
         .fit(&dataset)
         .unwrap();
 
-    DecTree::from(model)
+    linfa_decision_tree::from(model)
 }
 
 #[extendr]
-/// @export
-/// @rdname fit_decision_tree
-pub fn predict_decision_tree(model: &DecTree, x: Vec<f64>, n_features: i32) -> Integers {
+pub fn predict_decision_tree(model: &linfa_decision_tree, x: Vec<f64>, n_features: i32) -> Integers {
     let n_features = n_features as usize;
 
     // Convert Vec<f64> to Array2 for x

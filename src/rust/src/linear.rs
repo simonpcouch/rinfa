@@ -7,23 +7,21 @@ use linfa_linear::LinearRegression;
 use ndarray::Array1;
 use ndarray::Array2;
 
-pub struct LinReg {
+pub struct linfa_linear_reg {
     pub model: FittedLinearRegression<f64>,
 }
 
 #[extendr]
-impl LinReg {}
+impl linfa_linear_reg {}
 
-impl From<FittedLinearRegression<f64>> for LinReg {
+impl From<FittedLinearRegression<f64>> for linfa_linear_reg {
     fn from(value: FittedLinearRegression<f64>) -> Self {
-        LinReg { model: value }
+        linfa_linear_reg { model: value }
     }
 }
 
-/// Fit a linear regression model and return a pointer to it.
-/// @export
 #[extendr]
-fn fit_linear_reg_linfa(x: Vec<f64>, y: Vec<f64>, n_features: i32) -> LinReg {
+fn fit_linear_reg(x: Vec<f64>, y: Vec<f64>, n_features: i32) -> linfa_linear_reg {
     let n_features = n_features as usize;
 
     // Convert Vec<f64> to Array2 for x
@@ -39,12 +37,11 @@ fn fit_linear_reg_linfa(x: Vec<f64>, y: Vec<f64>, n_features: i32) -> LinReg {
 
     let model = LinearRegression::default().fit(&dataset).unwrap();
 
-    LinReg::from(model)
+    linfa_linear_reg::from(model)
 }
 
 #[extendr]
-/// @export
-fn predict_linear_reg_linfa(model: &LinReg, x: Vec<f64>, n_features: i32) -> Doubles {
+fn predict_linear_reg(model: &linfa_linear_reg, x: Vec<f64>, n_features: i32) -> Doubles {
     let n_features = n_features as usize;
 
     // Convert Vec<f64> to Array2 for x
@@ -61,6 +58,6 @@ fn predict_linear_reg_linfa(model: &LinReg, x: Vec<f64>, n_features: i32) -> Dou
 // See corresponding C code in `entrypoint.c`.
 extendr_module! {
     mod linear;
-    fn fit_linear_reg_linfa;
-    fn predict_linear_reg_linfa;
+    fn fit_linear_reg;
+    fn predict_linear_reg;
 }
