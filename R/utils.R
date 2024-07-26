@@ -37,7 +37,11 @@ check_y <- function(y, mode, call = caller_env()) {
   switch(
     mode,
     regression = check_numeric(y, call = call),
-    classification = check_integer(y, call = call)
+    classification = check_integer(y, call = call),
+    cli::cli_abort(
+      "{.arg mode} must be one of {.val regression} or {.val classification}.",
+      call = call
+    )
   )
 }
 
