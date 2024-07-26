@@ -51,9 +51,7 @@ system.time(
 
 library(rinfa)
 
-x_rinfa <- c(x)
-
 system.time({
-  fit_linear_reg_linfa(x_rinfa, y, n_features = 3)
+  linfa_linear_reg(x, y)
 })
 ```

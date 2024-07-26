@@ -36,22 +36,20 @@ system.time(
   lm(y ~ ., dat)
 )
 #>    user  system elapsed 
-#>   0.136   0.020   0.156
+#>   0.141   0.018   0.159
 
 system.time(
   # lm()'s speedy friend
   lm.fit(x, y)
 )
 #>    user  system elapsed 
-#>   0.038   0.002   0.040
+#>   0.044   0.003   0.047
 
 library(rinfa)
 
-x_rinfa <- c(x)
-
 system.time({
-  fit_linear_reg_linfa(x_rinfa, y, n_features = 3)
+  linfa_linear_reg(x, y)
 })
 #>    user  system elapsed 
-#>   0.012   0.003   0.016
+#>   0.028   0.008   0.037
 ```
