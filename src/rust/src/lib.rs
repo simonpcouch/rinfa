@@ -1,5 +1,6 @@
 #![allow(non_camel_case_types)]
 
+mod bayes;
 mod linear;
 mod logistic;
 mod trees;
@@ -11,6 +12,7 @@ use extendr_api::prelude::*;
 // See corresponding C code in `entrypoint.c`.
 extendr_module! {
     mod rinfa;
+    use bayes;
     use linear;
     use logistic;
     use trees;

@@ -370,6 +370,18 @@ dependencies = [
 ]
 
 [[package]]
+name = "linfa-bayes"
+version = "0.7.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "fe1189e37c5226a109e105528be892c3732b2f01c88349d28745bd4edea9bd81"
+dependencies = [
+ "linfa",
+ "ndarray 0.15.6",
+ "ndarray-stats",
+ "thiserror",
+]
+
+[[package]]
 name = "linfa-datasets"
 version = "0.7.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -777,6 +789,7 @@ version = "0.1.0"
 dependencies = [
  "extendr-api",
  "linfa",
+ "linfa-bayes",
  "linfa-datasets",
  "linfa-linear",
  "linfa-logistic",

@@ -11,7 +11,8 @@ name = 'rinfa'
 # lots of changes since 0.4.0
 extendr-api = { git = "https://github.com/extendr/extendr" }
 linfa = '*'
-linfa-linear = '*'
+linfa-bayes = "0.7.0"
+linfa-linear = "0.7.0"
 linfa-logistic = "0.7.0"
 linfa-trees = "0.7.0"
 linfa-datasets = { version = "0.7", features = ["diabetes"] }
