@@ -23,6 +23,5 @@ test_that("linfa_linear_reg gives similar output to lm", {
   m_r <- lm(y ~ ., cbind(as.data.frame(x), y))
   p_r <- predict(m_r, as.data.frame(newdata))
 
-  # TODO: that's pretty different! compare results once they're similar.
-  expect_true(TRUE)
+  expect_equal(unname(p_r), p_linfa)
 })

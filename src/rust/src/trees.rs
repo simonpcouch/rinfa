@@ -49,8 +49,10 @@ pub fn fit_decision_tree(x: Vec<f64>, y: Vec<i32>, n_features: i32, max_depth: i
     let n_features = n_features as usize;
 
     // Convert Vec<f64> to Array2 for x
-    let x = Array2::from_shape_vec((x.len() / n_features, n_features), x)
-        .expect("Failed to reshape x");
+    let x = Array2::from_shape_vec((n_features, x.len() / n_features), x)
+        .expect("Failed to reshape x")
+        .t()
+        .to_owned();
 
     // Convert Vec<i32> to Array1<usize> for y
     let y = Array1::from_vec(y.into_iter().map(|v| v as usize).collect());
@@ -72,8 +74,10 @@ pub fn predict_decision_tree(model: &linfa_decision_tree, x: Vec<f64>, n_feature
     let n_features = n_features as usize;
 
     // Convert Vec<f64> to Array2 for x
-    let x = Array2::from_shape_vec((x.len() / n_features, n_features), x)
-        .expect("Failed to reshape x");
+    let x = Array2::from_shape_vec((n_features, x.len() / n_features), x)
+        .expect("Failed to reshape x")
+        .t()
+        .to_owned();
 
     let preds = model.model.predict(&x);
 

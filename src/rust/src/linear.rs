@@ -25,8 +25,10 @@ fn fit_linear_reg(x: Vec<f64>, y: Vec<f64>, n_features: i32) -> linfa_linear_reg
     let n_features = n_features as usize;
 
     // Convert Vec<f64> to Array2 for x
-    let x = Array2::from_shape_vec((x.len() / n_features, n_features), x)
-        .expect("Failed to reshape x");
+    let x = Array2::from_shape_vec((n_features, x.len() / n_features), x)
+        .expect("Failed to reshape x")
+        .t()
+        .to_owned();
 
     // Convert Vec<f64> to Array1 for y
     let y = Array1::from(y);
@@ -45,8 +47,10 @@ fn predict_linear_reg(model: &linfa_linear_reg, x: Vec<f64>, n_features: i32) ->
     let n_features = n_features as usize;
 
     // Convert Vec<f64> to Array2 for x
-    let x = Array2::from_shape_vec((x.len() / n_features, n_features), x)
-        .expect("Failed to reshape x");
+    let x = Array2::from_shape_vec((n_features, x.len() / n_features), x)
+        .expect("Failed to reshape x")
+        .t()
+        .to_owned();
 
     let preds = model.model.predict(&x);
     let preds = preds.into_raw_vec();
