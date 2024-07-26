@@ -1,3 +1,4 @@
+# interface for `fit_logistic_reg()`, implemented in the logistic.rs module
 #' Logistic regression with linfa
 #'
 #' @param x A numeric matrix of predictors.
@@ -17,6 +18,7 @@ linfa_logistic_reg <- function(x, y) {
   check_x(x, y)
   check_y(y, "classification")
 
+  # TODO: check that there are not more than two classes
   fit <- fit_logistic_reg(c(x), y, ncol(x))
 
   structure(

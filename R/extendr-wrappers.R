@@ -18,6 +18,10 @@ fit_logistic_reg <- function(x, y, n_features) .Call(wrap__fit_logistic_reg, x, 
 
 predict_logistic_reg <- function(model, x, n_features) .Call(wrap__predict_logistic_reg, model, x, n_features)
 
+fit_multinom_reg <- function(x, y, n_features) .Call(wrap__fit_multinom_reg, x, y, n_features)
+
+predict_multinom_reg <- function(model, x, n_features) .Call(wrap__predict_multinom_reg, model, x, n_features)
+
 fit_decision_tree <- function(x, y, n_features, min_impurity_decrease, max_depth, min_weight_split) .Call(wrap__fit_decision_tree, x, y, n_features, min_impurity_decrease, max_depth, min_weight_split)
 
 predict_decision_tree <- function(model, x, n_features) .Call(wrap__predict_decision_tree, model, x, n_features)
