@@ -28,3 +28,4 @@ m
 
 predict(m, matrix(rnorm(12), ncol = 3))
 }
+\keyword{internal}

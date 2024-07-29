@@ -9,6 +9,7 @@
   make_linear_reg_linfa()
   make_logistic_reg_linfa()
   make_multinom_reg_linfa()
+  make_naive_Bayes_linfa()
 }
 
 
