@@ -36,7 +36,7 @@
       check_y(rnorm(10), "classification")
     Condition
       Error:
-      ! `y` must be an integer.
+      ! `y` must be an integer or factor.
 
 ---
 

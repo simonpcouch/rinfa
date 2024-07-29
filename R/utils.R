@@ -51,8 +51,14 @@ check_numeric <- function(x, arg = caller_arg(x), call = caller_env()) {
   }
 }
 
+check_integer <- function(x, arg = caller_arg(x), call = caller_env()) {
+  if (!inherits(x, "integer")) {
+    cli::cli_abort("{.arg {arg}} must be an integer.", call = call)
+  }
+}
+
 check_outcome <- function(x, arg = caller_arg(x), call = caller_env()) {
   if (!inherits_any(x, c("integer", "factor"))) {
-    cli::cli_abort("{.arg {arg}} must be an integer.", call = call)
+    cli::cli_abort("{.arg {arg}} must be an integer or factor.", call = call)
   }
 }
