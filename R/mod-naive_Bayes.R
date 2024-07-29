@@ -81,6 +81,15 @@ make_naive_Bayes_linfa <- function() {
     )
   )
 
+  parsnip::set_model_arg(
+    model = "naive_Bayes",
+    eng = "linfa",
+    parsnip = "smoothness",
+    original = "smoothness",
+    func = list(pkg = "dials", fun = "smoothness"),
+    has_submodel = FALSE
+  )
+
   parsnip::set_encoding(
     model = "naive_Bayes",
     mode = "classification",
