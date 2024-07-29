@@ -4,7 +4,7 @@ test_that("parsnip interface works", {
   y <- sample(1:4, 100, replace = TRUE)
   newdata <- matrix(rnorm(12), ncol = 3)
 
-  m_linfa <- linfa_naive_Bayes(x, y)
+  m_linfa <- .linfa_naive_Bayes(x, y)
   p_linfa <- predict(m_linfa, newdata)
 
   m_parsnip <- fit(naive_Bayes(engine = "linfa"), y ~ ., cbind(as.data.frame(x), y = as.factor(y)))

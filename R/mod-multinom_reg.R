@@ -1,6 +1,16 @@
 # interface for `fit_multinom_reg()`, implemented in the logistic.rs module
 #' Multinomial regression with linfa
 #'
+#' @description
+#' This is an internal function that interfaces directly with the Rust
+#' implementation from linfa. The preferred entry point is via tidymodels,
+#' i.e. with:
+#'
+#' ```
+#' model_spec <- multinom_reg(engine = "linfa", mode = "classification")
+#' model <- fit(model_spec, as.factor(cyl) ~ ., mtcars)
+#' ```
+#'
 #' @param x A numeric matrix of predictors.
 #' @param y An integer vector of outcome values.
 # @inheritParams parsnip::multinom_reg
@@ -15,7 +25,7 @@
 #' predict(m, matrix(rnorm(12), ncol = 3))
 #' @keywords internal
 #' @export
-linfa_multinom_reg <- function(x, y) {
+.linfa_multinom_reg <- function(x, y) {
   check_x(x, y)
   check_y(y, "classification")
   # TODO: this is probably not the way... parsnip requires that the outcome
@@ -62,7 +72,7 @@ make_multinom_reg_linfa <- function() {
     value = list(
       interface = "matrix",
       protect = c("x", "y"),
-      func = c(pkg = "rinfa", fun = "linfa_multinom_reg"),
+      func = c(pkg = "rinfa", fun = ".linfa_multinom_reg"),
       defaults = list()
     )
   )

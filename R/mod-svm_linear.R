@@ -1,6 +1,16 @@
 # interface for `fit_svm_linear()`, implemented in the svm.rs module
 #' Support vector machines with linfa
 #'
+#' @description
+#' This is an internal function that interfaces directly with the Rust
+#' implementation from linfa. The preferred entry point is via tidymodels,
+#' i.e. with:
+#'
+#' ```
+#' model_spec <- svm_linear(engine = "linfa", mode = "classification")
+#' model <- fit(model_spec, as.factor(vs) ~ ., mtcars)
+#' ```
+#'
 #' @param x A numeric matrix of predictors.
 #' @param y A logical vector of outcome values.
 #' @inheritParams parsnip::svm_linear
@@ -15,7 +25,7 @@
 #' predict(m, matrix(rnorm(12), ncol = 3))
 #' @keywords internal
 #' @export
-linfa_svm_linear <- function(x, y, cost = 1) {
+.linfa_svm_linear <- function(x, y, cost = 1) {
   check_x(x, y)
   check_y(y, "classification")
   # TODO: check that y is encoded as 0/1 or is two-class and can be transformed to it
@@ -64,7 +74,7 @@ make_svm_linear_linfa <- function() {
     value = list(
       interface = "matrix",
       protect = c("x", "y"),
-      func = c(pkg = "rinfa", fun = "linfa_svm_linear"),
+      func = c(pkg = "rinfa", fun = ".linfa_svm_linear"),
       defaults = list()
     )
   )

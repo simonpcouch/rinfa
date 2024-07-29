@@ -1,5 +1,14 @@
-#' Decision trees with linfa
+#' Linear regression with linfa
 #'
+#' @description
+#' This is an internal function that interfaces directly with the Rust
+#' implementation from linfa. The preferred entry point is via tidymodels,
+#' i.e. with:
+#'
+#' ```
+#' model_spec <- linear_reg(engine = "linfa")
+#' model <- fit(model_spec, mpg ~ ., mtcars)
+#' ```
 #' @param x A numeric matrix of predictors.
 #' @param y A numeric vector of outcome values.
 # @inheritParams parsnip::linear_reg
@@ -14,7 +23,7 @@
 #' predict(m, matrix(rnorm(12), ncol = 3))
 #' @keywords internal
 #' @export
-linfa_linear_reg <- function(x, y) {
+.linfa_linear_reg <- function(x, y) {
   check_x(x, y)
   check_y(y, "regression")
 
@@ -54,7 +63,7 @@ make_linear_reg_linfa <- function() {
     value = list(
       interface = "matrix",
       protect = c("x", "y"),
-      func = c(pkg = "rinfa", fun = "linfa_linear_reg"),
+      func = c(pkg = "rinfa", fun = ".linfa_linear_reg"),
       defaults = list()
     )
   )

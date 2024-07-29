@@ -48,7 +48,7 @@ system.time(
 library(rinfa)
 
 system.time({
-  linfa_linear_reg(x, y)
+  .linfa_linear_reg(x, y)
 })
 #>    user  system elapsed 
 #>   0.175   0.078   0.255

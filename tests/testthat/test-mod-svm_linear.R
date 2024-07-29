@@ -3,7 +3,7 @@ test_that("linfa_svm_linear works", {
   x <- matrix(rnorm(300), ncol = 3)
   y <- sample(0:1, 100, replace = TRUE)
 
-  m_linfa <- linfa_svm_linear(x, y)
+  m_linfa <- .linfa_svm_linear(x, y)
   p_linfa <- predict(m_linfa, matrix(rnorm(12), ncol = 3))
 
   expect_s3_class(m_linfa, c("linfa_svm_linear", "linfa_fit"))
@@ -17,7 +17,7 @@ test_that("parsnip interface works", {
   y <- sample(1:4, 100, replace = TRUE)
   newdata <- matrix(rnorm(12), ncol = 3)
 
-  m_linfa <- linfa_svm_linear(x, y)
+  m_linfa <- .linfa_svm_linear(x, y)
   p_linfa <- predict(m_linfa, newdata)
 
   m_parsnip <- fit(svm_linear(engine = "linfa", mode = "classification"), y ~ ., cbind(as.data.frame(x), y = as.factor(y)))

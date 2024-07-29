@@ -1,5 +1,15 @@
 #' Decision trees with linfa
 #'
+#' @description
+#' This is an internal function that interfaces directly with the Rust
+#' implementation from linfa. The preferred entry point is via tidymodels,
+#' i.e. with:
+#'
+#' ```
+#' model_spec <- decision_tree(engine = "linfa", mode = "classification")
+#' model <- fit(model_spec, as.factor(vs) ~ ., mtcars)
+#' ```
+#'
 #' @param x A numeric matrix of predictors.
 #' @param y An integer vector of outcome values.
 #' @inheritParams parsnip::decision_tree
@@ -12,8 +22,9 @@
 #' m
 #'
 #' predict(m, matrix(rnorm(12), ncol = 3))
+#' @keywords internal
 #' @export
-linfa_decision_tree <- function(x, y, cost_complexity = 0.00001,
+.linfa_decision_tree <- function(x, y, cost_complexity = 0.00001,
                                 tree_depth = 7L, min_n = 4) {
   check_x(x, y)
   check_y(y, "classification")
@@ -70,7 +81,7 @@ make_decision_tree_linfa <- function() {
     value = list(
       interface = "matrix",
       protect = c("x", "y"),
-      func = c(pkg = "rinfa", fun = "linfa_decision_tree"),
+      func = c(pkg = "rinfa", fun = ".linfa_decision_tree"),
       defaults = list()
     )
   )

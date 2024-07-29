@@ -52,6 +52,6 @@ system.time(
 library(rinfa)
 
 system.time({
-  linfa_linear_reg(x, y)
+  .linfa_linear_reg(x, y)
 })
 ```
