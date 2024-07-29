@@ -12,6 +12,7 @@
 #' m
 #'
 #' predict(m, matrix(rnorm(12), ncol = 3))
+#' @keywords internal
 #' @export
 linfa_linear_reg <- function(x, y) {
   check_x(x, y)
@@ -29,3 +30,62 @@ linfa_linear_reg <- function(x, y) {
 predict.linfa_linear_reg <- function(object, newdata) {
   predict_linear_reg(object$fit, c(newdata), n_features = ncol(object$ptype))
 }
+
+# nocov start
+
+make_linear_reg_linfa <- function() {
+  parsnip::set_model_engine(
+    model = "linear_reg",
+    mode = "regression",
+    eng = "linfa"
+  )
+
+  parsnip::set_dependency(
+    model = "linear_reg",
+    eng = "linfa",
+    pkg = "rinfa",
+    mode = "regression"
+  )
+
+  parsnip::set_fit(
+    model = "linear_reg",
+    eng = "linfa",
+    mode = "regression",
+    value = list(
+      interface = "matrix",
+      protect = c("x", "y", "weights"),
+      func = c(pkg = "rinfa", fun = "linfa_linear_reg"),
+      defaults = list()
+    )
+  )
+
+  parsnip::set_encoding(
+    model = "linear_reg",
+    mode = "regression",
+    eng = "linfa",
+    options = list(
+      predictor_indicators = "none",
+      compute_intercept = FALSE,
+      remove_intercept = FALSE,
+      allow_sparse_x = FALSE
+    )
+  )
+
+  parsnip::set_pred(
+    model = "linear_reg",
+    eng = "linfa",
+    mode = "regression",
+    type = "numeric",
+    value = list(
+      pre = NULL,
+      post = NULL,
+      func = c(fun = "predict"),
+      args = list(
+        object = quote(object$fit),
+        newdata = quote(new_data)
+      )
+    )
+  )
+}
+
+# nocov end
