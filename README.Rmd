@@ -34,6 +34,17 @@ devtools::install_github("simonpcouch/rinfa")
 
 ## Example
 
+```{r, echo = FALSE, message = FALSE}
+# this code just logs the state of the parsnip model environment
+# befor eloading rinfa so it can be used in the "Available implementations" sec
+library(parsnip)
+
+parsnip_models <- get_from_env("models") %>%
+  setNames(., .) %>%
+  purrr::map_dfr(get_from_env, .id = "model")
+
+```
+
 ```{r}
 x <- matrix(rnorm(3e7), ncol = 3)
 y <- rnorm(1e7)
@@ -54,4 +65,20 @@ library(rinfa)
 system.time({
   .linfa_linear_reg(x, y)
 })
+```
+
+## Available implementations
+
+The rinfa package provides an additional engine `"linfa"` for the models in the following table:
+
+```{r, echo = FALSE, message = FALSE}
+rinfa_models <- get_from_env("models") %>%
+  setNames(., .) %>%
+  purrr::map_dfr(get_from_env, .id = "model")
+
+dplyr::anti_join(
+  rinfa_models, parsnip_models, 
+  by = c("model", "engine", "mode")
+) %>%
+  knitr::kable()
 ```
