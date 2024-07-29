@@ -20,9 +20,7 @@ linfa_decision_tree <- function(x, y, cost_complexity = 0.00001,
   # TODO: this is probably not the way... parsnip requires that the outcome
   # is a factor, but linfa takes outcomes as integers
   if (inherits(y, "factor")) {
-    # TODO: this is gross, but - 1 aligns levels(y) with y if y was coerced
-    # from integer
-    y <- as.integer(y) - 1L
+    y <- as.integer(y)
   }
 
   check_integer(tree_depth)
@@ -47,3 +45,64 @@ linfa_decision_tree <- function(x, y, cost_complexity = 0.00001,
 predict.linfa_decision_tree <- function(object, newdata) {
   predict_decision_tree(object$fit, c(newdata), n_features = ncol(object$ptype))
 }
+
+
+# nocov start
+
+make_decision_tree_linfa <- function() {
+  parsnip::set_model_engine(
+    model = "decision_tree",
+    mode = "classification",
+    eng = "linfa"
+  )
+
+  parsnip::set_dependency(
+    model = "decision_tree",
+    eng = "linfa",
+    pkg = "rinfa",
+    mode = "classification"
+  )
+
+  parsnip::set_fit(
+    model = "decision_tree",
+    eng = "linfa",
+    mode = "classification",
+    value = list(
+      interface = "matrix",
+      protect = c("x", "y"),
+      func = c(pkg = "rinfa", fun = "linfa_decision_tree"),
+      defaults = list()
+    )
+  )
+
+  parsnip::set_encoding(
+    model = "decision_tree",
+    mode = "classification",
+    eng = "linfa",
+    options = list(
+      predictor_indicators = "none",
+      compute_intercept = FALSE,
+      remove_intercept = FALSE,
+      allow_sparse_x = FALSE
+    )
+  )
+
+  parsnip::set_pred(
+    model = "decision_tree",
+    eng = "linfa",
+    mode = "classification",
+    type = "class",
+    value = list(
+      pre = NULL,
+      post = NULL,
+      func = c(fun = "predict"),
+      args = list(
+        object = quote(object$fit),
+        newdata = quote(new_data)
+      )
+    )
+  )
+}
+
+# nocov end
+

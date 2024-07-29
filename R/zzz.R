@@ -5,6 +5,7 @@
 # been loaded.
 
 .onLoad <- function(libname, pkgname) {
+  make_decision_tree_linfa()
   make_linear_reg_linfa()
   make_logistic_reg_linfa()
   make_multinom_reg_linfa()
