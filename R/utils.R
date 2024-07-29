@@ -37,7 +37,7 @@ check_y <- function(y, mode, call = caller_env()) {
   switch(
     mode,
     regression = check_numeric(y, call = call),
-    classification = check_integer(y, call = call),
+    classification = check_outcome(y, call = call),
     cli::cli_abort(
       "{.arg mode} must be one of {.val regression} or {.val classification}.",
       call = call
@@ -51,8 +51,8 @@ check_numeric <- function(x, arg = caller_arg(x), call = caller_env()) {
   }
 }
 
-check_integer <- function(x, arg = caller_arg(x), call = caller_env()) {
-  if (!inherits(x, "integer")) {
+check_outcome <- function(x, arg = caller_arg(x), call = caller_env()) {
+  if (!inherits_any(x, c("integer", "factor"))) {
     cli::cli_abort("{.arg {arg}} must be an integer.", call = call)
   }
 }

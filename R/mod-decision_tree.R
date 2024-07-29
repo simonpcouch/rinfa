@@ -17,6 +17,13 @@ linfa_decision_tree <- function(x, y, cost_complexity = 0.00001,
                                 tree_depth = 7L, min_n = 4) {
   check_x(x, y)
   check_y(y, "classification")
+  # TODO: this is probably not the way... parsnip requires that the outcome
+  # is a factor, but linfa takes outcomes as integers
+  if (inherits(y, "factor")) {
+    # TODO: this is gross, but - 1 aligns levels(y) with y if y was coerced
+    # from integer
+    y <- as.integer(y) - 1L
+  }
 
   check_integer(tree_depth)
 

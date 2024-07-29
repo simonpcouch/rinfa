@@ -6,6 +6,7 @@
 
 .onLoad <- function(libname, pkgname) {
   make_linear_reg_linfa()
+  make_logistic_reg_linfa()
 }
 
 

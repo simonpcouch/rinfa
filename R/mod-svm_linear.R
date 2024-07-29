@@ -19,6 +19,14 @@ linfa_svm_linear <- function(x, y, cost = 1) {
   check_y(y, "classification")
   # TODO: check that y is encoded as 0/1 or is two-class and can be transformed to it
 
+  # TODO: this is probably not the way... parsnip requires that the outcome
+  # is a factor, but linfa takes outcomes as integers
+  if (inherits(y, "factor")) {
+    # TODO: this is gross, but - 1 aligns levels(y) with y if y was coerced
+    # from integer
+    y <- as.integer(y) - 1L
+  }
+
   fit <- fit_svm_linear(c(x), y, ncol(x), c = cost)
 
   structure(

@@ -53,7 +53,7 @@ make_linear_reg_linfa <- function() {
     mode = "regression",
     value = list(
       interface = "matrix",
-      protect = c("x", "y", "weights"),
+      protect = c("x", "y"),
       func = c(pkg = "rinfa", fun = "linfa_linear_reg"),
       defaults = list()
     )

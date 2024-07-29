@@ -16,6 +16,13 @@
 linfa_naive_Bayes <- function(x, y, smoothness = 1e-9) {
   check_x(x, y)
   check_y(y, "classification")
+  # TODO: this is probably not the way... parsnip requires that the outcome
+  # is a factor, but linfa takes outcomes as integers
+  if (inherits(y, "factor")) {
+    # TODO: this is gross, but - 1 aligns levels(y) with y if y was coerced
+    # from integer
+    y <- as.integer(y) - 1L
+  }
 
   fit <-
     fit_naive_Bayes(
