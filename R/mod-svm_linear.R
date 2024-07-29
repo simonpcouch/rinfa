@@ -79,6 +79,15 @@ make_svm_linear_linfa <- function() {
     )
   )
 
+  set_model_arg(
+    model = "svm_linear",
+    eng = "linfa",
+    parsnip = "cost",
+    original = "cost",
+    func = list(pkg = "dials", fun = "cost"),
+    has_submodel = FALSE
+  )
+
   parsnip::set_encoding(
     model = "svm_linear",
     mode = "classification",
