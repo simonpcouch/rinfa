@@ -86,6 +86,33 @@ make_decision_tree_linfa <- function() {
     )
   )
 
+  set_model_arg(
+    model = "decision_tree",
+    eng = "linfa",
+    parsnip = "cost_complexity",
+    original = "cost_complexity",
+    func = list(pkg = "dials", fun = "cost_complexity"),
+    has_submodel = FALSE
+  )
+
+  parsnip::set_model_arg(
+    model = "decision_tree",
+    eng = "linfa",
+    parsnip = "min_n",
+    original = "min_n",
+    func = list(pkg = "dials", fun = "min_n"),
+    has_submodel = FALSE
+  )
+
+  parsnip::set_model_arg(
+    model = "decision_tree",
+    eng = "linfa",
+    parsnip = "tree_depth",
+    original = "tree_depth",
+    func = list(pkg = "dials", fun = "tree_depth"),
+    has_submodel = FALSE
+  )
+
   parsnip::set_encoding(
     model = "decision_tree",
     mode = "classification",
