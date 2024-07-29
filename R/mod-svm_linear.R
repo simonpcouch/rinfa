@@ -13,6 +13,7 @@
 #' m
 #'
 #' predict(m, matrix(rnorm(12), ncol = 3))
+#' @keywords internal
 #' @export
 linfa_svm_linear <- function(x, y, cost = 1) {
   check_x(x, y)
@@ -39,3 +40,63 @@ linfa_svm_linear <- function(x, y, cost = 1) {
 predict.linfa_svm_linear <- function(object, newdata) {
   predict_svm_linear(object$fit, c(newdata), n_features = ncol(object$ptype))
 }
+
+# nocov start
+
+make_svm_linear_linfa <- function() {
+  parsnip::set_model_engine(
+    model = "svm_linear",
+    mode = "classification",
+    eng = "linfa"
+  )
+
+  parsnip::set_dependency(
+    model = "svm_linear",
+    eng = "linfa",
+    pkg = "rinfa",
+    mode = "classification"
+  )
+
+  parsnip::set_fit(
+    model = "svm_linear",
+    eng = "linfa",
+    mode = "classification",
+    value = list(
+      interface = "matrix",
+      protect = c("x", "y"),
+      func = c(pkg = "rinfa", fun = "linfa_svm_linear"),
+      defaults = list()
+    )
+  )
+
+  parsnip::set_encoding(
+    model = "svm_linear",
+    mode = "classification",
+    eng = "linfa",
+    options = list(
+      predictor_indicators = "none",
+      compute_intercept = FALSE,
+      remove_intercept = FALSE,
+      allow_sparse_x = FALSE
+    )
+  )
+
+  parsnip::set_pred(
+    model = "svm_linear",
+    eng = "linfa",
+    mode = "classification",
+    type = "class",
+    value = list(
+      pre = NULL,
+      post = NULL,
+      func = c(fun = "predict"),
+      args = list(
+        object = quote(object$fit),
+        newdata = quote(new_data)
+      )
+    )
+  )
+}
+
+# nocov end
+
