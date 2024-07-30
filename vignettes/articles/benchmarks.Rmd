@@ -1,0 +1,390 @@
+---
+title: "Benchmarks"
+---
+
+```{r}
+#| echo: false
+if (file.exists("vignettes/articles/timings/linear_reg_timings.rda")) {
+  eval_fits <- FALSE
+  # read outputs in from source:
+  files <- list.files("vignettes/articles/timings", full.names = TRUE)
+  loaded <- lapply(files, load, environment())
+} else {
+  eval_fits <- TRUE
+}
+
+rlang::local_options(
+  scipen = 100,
+  keras.fit_verbose = FALSE
+)
+
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+The rinfa parsnip extension implements bindings to linfa, a machine learning library written entirely in Rust. While linfa is somewhat less flexible than other modeling engines that tidymodels supports, it can often fit a good bit faster than other available engines. We'll use this article to back that claim up.
+
+While this article will benchmark fit times, it doesn't measure model performance nor vary the kinds of features and correlation structures among them; in reality, the choice of modeling engine must weigh both computational and predictive performance in context.
+
+First, loading tidymodels and the rinfa extension package:
+
+```{r setup, eval = eval_fits}
+library(tidymodels)
+library(rinfa)
+```
+
+```{r, eval = !eval_fits, include = FALSE}
+# if simulation results aren't available, run all of the
+# model fitting code. if not, don't do so, and thus 
+# tidymodels dependencies not needed
+library(rinfa)
+library(ggplot2)
+```
+
+rinfa supports a number of model types:
+
+* Linear regression
+* Logistic regression
+* Multinomial regression
+* Decision trees
+* Naive bayes
+
+For each of those model types, we'll benchmark the time to fit the model to a dataset of varying size, and compare the time-to-fit across each modeling engine.
+
+## Linear regression
+
+For this first model type, I'll write out the code that I'm using to benchmark the model fits. After that, I'll just plot the results without showing the code.
+
+First, setting parameters for the experiment---each modeling engine will fit models for each of the following number of rows:
+
+```{r}
+n_rows <- round(10^seq(2, 6, .5))
+
+n_rows
+```
+
+Now, we'll grab the different possible engines from parsnip's model environment. parsnip supports fitting models with the following engines:
+
+```{r}
+engines <- unique(get_model_env()[["linear_reg_fit"]]$engine)
+engines
+```
+
+Now, we set up a `data.frame()` to drop experimental results in and load the packages needed to fit all of these different models.
+```{r linear_reg_timings, message = FALSE, warning = FALSE, eval = eval_fits}
+linear_reg_timings <- 
+  data.frame(
+    engine = character(), 
+    n_row = integer(), 
+    timing = numeric()
+  )
+
+x <- lapply(engines, function(engine) {
+  pkgs <- required_pkgs(linear_reg(engine = engine))
+  lapply(pkgs, require, character.only = TRUE)
+})
+```
+
+For each engine, we put together a model specification, and then iterate through various numbers of rows in training data. After generating a dataset with that many rows, we measure how long each model fit takes and store it in the `linear_reg_timings` data frame.
+
+```{r linear_reg_timings-loop, message = FALSE, warning = FALSE, eval = eval_fits}
+for (engine in engines) {
+  spec <- linear_reg(engine = engine)
+  if (engine == "glmnet") {
+    spec <- spec %>% set_args(penalty = 0)
+  }
+  if (engine == "spark") {
+    next
+  }
+  for (n_row in n_rows) {
+    # first, check that a previous run didn't take too long; 
+    # if it did, go ahead and skip it
+    longest_fit <- linear_reg_timings[linear_reg_timings$engine == engine,]
+    longest_fit <- max(longest_fit$timing)
+    
+    if (longest_fit > 600) next
+
+    set.seed(1)
+    d <- sim_regression(n_row)
+    
+    # The following blurb is atypical in a tidymodels workflow, but
+    # feels worth including to give each engine a fair shot. We extract the
+    # "encoding," i.e. whether the model takes (matrix) x and y arguments or
+    # a data.frame and a formula. The elapsed time to convert from data.frame
+    # to matrix or vice versa is non-negligible for quicker model fits.
+    #
+    # Normally, a user would just call whichever fit interface feels more
+    # comfortable for them and tidymodels would take care of the conversion.
+    fit_encoding <- get_fit("linear_reg")
+    fit_encoding <- fit_encoding[fit_encoding$engine == engine, "value"]
+    fit_encoding <- fit_encoding$value[[1]]$interface
+    
+    if (!identical(fit_encoding, "matrix")) {
+      timing <- system.time(fit(spec, outcome ~ ., d))
+    } else {
+      x <- as.matrix(d[-1])
+      timing <- system.time(fit_xy(spec, x = x, y = d$outcome))
+    }
+    
+    linear_reg_timings <-
+      bind_rows(
+        linear_reg_timings,
+        data.frame(engine = engine, n_row = n_row, timing = timing[["elapsed"]])
+      )
+  }
+}
+```
+
+```{r save-linear_reg_timings, include = FALSE, eval = eval_fits}
+save(
+  linear_reg_timings, 
+  file = "vignettes/articles/timings/linear_reg_timings.rda"
+)
+```
+
+```{r}
+linear_reg_timings %>%
+  ggplot() +
+  aes(x = n_row, y = timing, colour = engine, group = engine) +
+  geom_line() +
+  scale_y_log10() +
+  scale_x_log10() +
+  labs(x = "Log(# rows)", y = "Log(Fit time, seconds)")
+```
+
+
+## Logistic regression
+
+```{r logistic_reg_timings, include = FALSE, message = FALSE, warning = FALSE, eval = eval_fits}
+engines <- unique(get_model_env()[["logistic_reg"]]$engine)
+engines
+
+logistic_reg_timings <- 
+  data.frame(
+    engine = character(), 
+    n_row = integer(), 
+    timing = numeric()
+  )
+
+x <- lapply(engines, function(engine) {
+  pkgs <- required_pkgs(logistic_reg(engine = engine))
+  lapply(pkgs, require, character.only = TRUE)
+})
+
+for (engine in engines) {
+  spec <- logistic_reg(engine = engine)
+  if (engine == "glmnet") {
+    spec <- spec %>% set_args(penalty = 0)
+  }
+  if (engine == "spark") {
+    next
+  }
+  for (n_row in n_rows) {
+    # print(paste0("Engine: ", engine, "   # Rows: ", n_row))
+
+    longest_fit <- logistic_reg_timings[logistic_reg_timings$engine == engine,]
+    longest_fit <- max(longest_fit$timing)
+    
+    if (longest_fit > 600) next
+
+    set.seed(1)
+    d <- sim_classification(n_row)
+    
+    fit_encoding <- get_fit("logistic_reg")
+    fit_encoding <- fit_encoding[fit_encoding$engine == engine, "value"]
+    fit_encoding <- fit_encoding$value[[1]]$interface
+    
+    if (!identical(fit_encoding, "matrix")) {
+      timing <- system.time(fit(spec, class ~ ., d))
+    } else {
+      x <- as.matrix(d[-1])
+      timing <- system.time(fit_xy(spec, x = x, y = d$class))
+    }
+    
+    logistic_reg_timings <-
+      bind_rows(
+        logistic_reg_timings,
+        data.frame(engine = engine, n_row = n_row, timing = timing[["elapsed"]])
+      )
+  }
+}
+
+save(
+  logistic_reg_timings, 
+  file = "vignettes/articles/timings/logistic_reg_timings.rda"
+)
+```
+
+```{r save-logistic_reg_timings, include = FALSE, eval = eval_fits}
+save(
+  logistic_reg_timings, 
+  file = "vignettes/articles/timings/logistic_reg_timings"
+)
+```
+
+```{r}
+logistic_reg_timings %>%
+  ggplot() +
+  aes(x = n_row, y = timing, colour = engine, group = engine) +
+  geom_line() +
+  scale_y_log10() +
+  scale_x_log10() +
+  labs(x = "# rows", y = "Log(Fit time, seconds)")
+```
+
+## Multinomial regression
+
+```{r multinom_reg_timings, include = FALSE, message = FALSE, warning = FALSE, eval = eval_fits}
+engines <- unique(get_model_env()[["multinom_reg"]]$engine)
+engines
+
+multinom_reg_timings <- 
+  data.frame(
+    engine = character(), 
+    n_row = integer(), 
+    timing = numeric()
+  )
+
+x <- lapply(engines, function(engine) {
+  pkgs <- required_pkgs(multinom_reg(engine = engine))
+  lapply(pkgs, require, character.only = TRUE)
+})
+
+for (engine in engines) {
+  spec <- multinom_reg(engine = engine)
+  if (engine == "glmnet") {
+    spec <- spec %>% set_args(penalty = 0)
+  }
+  if (engine %in% c("spark", "keras")) {
+    next
+  }
+  for (n_row in n_rows) {
+    # print(paste0("Engine: ", engine, "   # Rows: ", n_row))
+
+    longest_fit <- multinom_reg_timings[multinom_reg_timings$engine == engine,]
+    longest_fit <- max(longest_fit$timing)
+    
+    if (longest_fit > 600) next
+
+    set.seed(1)
+    d <- sim_multinomial(n_row, ~ A, ~ B, ~ A + B)
+    
+    fit_encoding <- get_fit("multinom_reg")
+    fit_encoding <- fit_encoding[fit_encoding$engine == engine, "value"]
+    fit_encoding <- fit_encoding$value[[1]]$interface
+    
+    if (!identical(fit_encoding, "matrix")) {
+      timing <- system.time(fit(spec, class ~ ., d))
+    } else {
+      x <- as.matrix(d[colnames(d) != "class"])
+      timing <- system.time(fit_xy(spec, x = x, y = d$class))
+    }
+    
+    multinom_reg_timings <-
+      bind_rows(
+        multinom_reg_timings,
+        data.frame(engine = engine, n_row = n_row, timing = timing[["elapsed"]])
+      )
+  }
+}
+```
+
+```{r save-multinom_reg_timings, include = FALSE, eval = eval_fits}
+save(
+  multinom_reg_timings, 
+  file = "vignettes/articles/timings/multinom_reg_timings.rda"
+)
+```
+
+
+```{r}
+multinom_reg_timings %>%
+  ggplot() +
+  aes(x = n_row, y = timing, colour = engine, group = engine) +
+  geom_line() +
+  scale_y_log10() +
+  scale_x_log10() +
+  labs(x = "# rows", y = "Log(Fit time, seconds)")
+```
+
+## Decision trees
+
+```{r decision_tree_timings, include = FALSE, message = FALSE, warning = FALSE, eval = eval_fits}
+engines <- unique(get_model_env()[["decision_tree"]]$engine)
+engines
+
+decision_tree_timings <- 
+  data.frame(
+    engine = character(), 
+    n_row = integer(), 
+    timing = numeric()
+  )
+
+x <- lapply(engines, function(engine) {
+  pkgs <- required_pkgs(decision_tree(engine = engine))
+  lapply(pkgs, require, character.only = TRUE)
+})
+
+for (engine in engines) {
+  spec <- decision_tree(engine = engine, mode = "classification")
+  if (engine == "glmnet") {
+    spec <- spec %>% set_args(penalty = 0)
+  }
+  if (engine %in% c("spark", "keras")) {
+    next
+  }
+  for (n_row in n_rows) {
+    # print(paste0("Engine: ", engine, "   # Rows: ", n_row))
+
+    longest_fit <- decision_tree_timings[decision_tree_timings$engine == engine,]
+    longest_fit <- max(longest_fit$timing)
+    
+    if (longest_fit > 600) next
+
+    set.seed(1)
+    d <- sim_classification(n_row)
+    
+    fit_encoding <- get_fit("decision_tree")
+    fit_encoding <- fit_encoding[fit_encoding$engine == engine, "value"]
+    fit_encoding <- fit_encoding$value[[1]]$interface
+    
+    if (!identical(fit_encoding, "matrix")) {
+      timing <- system.time(fit(spec, class ~ ., d))
+    } else {
+      x <- as.matrix(d[colnames(d) != "class"])
+      timing <- system.time(fit_xy(spec, x = x, y = d$class))
+    }
+    
+    decision_tree_timings <-
+      bind_rows(
+        decision_tree_timings,
+        data.frame(engine = engine, n_row = n_row, timing = timing[["elapsed"]])
+      )
+  }
+}
+
+save(
+  decision_tree_timings, 
+  file = "vignettes/articles/timings/decision_tree_timings.rda"
+)
+```
+
+```{r save-decision_tree_timings, include = FALSE, eval = eval_fits}
+save(
+  decision_tree_timings, 
+  file = "vignettes/articles/timings/multinom_reg_timings.rda"
+)
+```
+
+```{r}
+decision_tree_timings %>%
+  ggplot() +
+  aes(x = n_row, y = timing, colour = engine, group = engine) +
+  geom_line() +
+  scale_y_log10() +
+  scale_x_log10() +
+  labs(x = "# rows", y = "Log(Fit time, seconds)")
+```
+
