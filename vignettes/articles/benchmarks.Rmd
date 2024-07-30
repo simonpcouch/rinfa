@@ -4,10 +4,10 @@ title: "Benchmarks"
 
 ```{r}
 #| echo: false
-if (file.exists("vignettes/articles/timings/linear_reg_timings.rda")) {
+if (file.exists("timings/linear_reg_timings.rda")) {
   eval_fits <- FALSE
   # read outputs in from source:
-  files <- list.files("vignettes/articles/timings", full.names = TRUE)
+  files <- list.files("timings", full.names = TRUE)
   loaded <- lapply(files, load, environment())
 } else {
   eval_fits <- TRUE
@@ -31,7 +31,6 @@ While this article will benchmark fit times, it doesn't measure model performanc
 First, loading tidymodels and the rinfa extension package:
 
 ```{r setup, eval = eval_fits}
-rlang::abort(paste0("Current wd: ", getwd()))
 library(tidymodels)
 library(rinfa)
 ```
