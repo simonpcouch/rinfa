@@ -6,7 +6,7 @@
 \alias{rinfa-package}
 \title{rinfa: Rust bindings for tidymodels}
 \description{
-Rust bindings for tidymodels
+A 'parsnip' extension that interfaces with the 'Rust' machine learning library 'linfa' to decrease model fit times for common model types.
 }
 \seealso{
 Useful links:

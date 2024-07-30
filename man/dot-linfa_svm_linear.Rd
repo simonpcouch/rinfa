@@ -27,7 +27,7 @@ model <- fit(model_spec, as.factor(vs) ~ ., mtcars)
 x <- matrix(rnorm(300), ncol = 3)
 y <- sample(c(0L, 1L), size = 100, replace = TRUE)
 
-m <- linfa_svm_linear(x, y)
+m <- .linfa_svm_linear(x, y)
 m
 
 predict(m, matrix(rnorm(12), ncol = 3))

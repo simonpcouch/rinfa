@@ -19,7 +19,7 @@
 #' x <- matrix(rnorm(300), ncol = 3)
 #' y <- sample(c(0L, 1L), size = 100, replace = TRUE)
 #'
-#' m <- linfa_svm_linear(x, y)
+#' m <- .linfa_svm_linear(x, y)
 #' m
 #'
 #' predict(m, matrix(rnorm(12), ncol = 3))
@@ -47,7 +47,7 @@
 }
 
 #' @export
-predict.linfa_svm_linear <- function(object, newdata) {
+predict.linfa_svm_linear <- function(object, newdata, ...) {
   predict_svm_linear(object$fit, c(newdata), n_features = ncol(object$ptype))
 }
 
@@ -79,7 +79,7 @@ make_svm_linear_linfa <- function() {
     )
   )
 
-  set_model_arg(
+  parsnip::set_model_arg(
     model = "svm_linear",
     eng = "linfa",
     parsnip = "cost",

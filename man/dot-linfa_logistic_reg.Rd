@@ -24,7 +24,7 @@ model <- fit(model_spec, as.factor(vs) ~ ., mtcars)
 x <- matrix(rnorm(300), ncol = 3)
 y <- sample(1:2, size = 100, replace = TRUE)
 
-m <- linfa_logistic_reg(x, y)
+m <- .linfa_logistic_reg(x, y)
 m
 
 predict(m, matrix(rnorm(12), ncol = 3))

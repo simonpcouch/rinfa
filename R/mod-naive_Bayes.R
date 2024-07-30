@@ -18,7 +18,7 @@
 #' x <- matrix(rnorm(300), ncol = 3)
 #' y <- sample(1:4, size = 100, replace = TRUE)
 #'
-#' m <- linfa_naive_Bayes(x, y)
+#' m <- .linfa_naive_Bayes(x, y)
 #' m
 #'
 #' predict(m, matrix(rnorm(12), ncol = 3))
@@ -48,7 +48,7 @@
 }
 
 #' @export
-predict.linfa_naive_Bayes <- function(object, newdata) {
+predict.linfa_naive_Bayes <- function(object, newdata, ...) {
   predict_naive_Bayes(object$fit, c(newdata), n_features = ncol(object$ptype))
 }
 

@@ -24,7 +24,7 @@ model <- fit(model_spec, mpg ~ ., mtcars)
 x <- matrix(rnorm(300), ncol = 3)
 y <- rnorm(100)
 
-m <- linfa_linear_reg(x, y)
+m <- .linfa_linear_reg(x, y)
 m
 
 predict(m, matrix(rnorm(12), ncol = 3))

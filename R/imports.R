@@ -3,5 +3,6 @@
 stats::predict
 
 #' @import rlang
+#' @import parsnip
 #' @keywords internal
 "_PACKAGE"

@@ -6,13 +6,16 @@ Authors@R: c(
   person("Josiah", "Parry", , "josiah.parry@gmail.com", role = "aut",
          comment = c(ORCID = "0000-0001-9910-865X"))
   )
-Description: Rust bindings for tidymodels
+Description: A 'parsnip' extension that interfaces with the 'Rust'
+  machine learning library 'linfa' to decrease model fit times for
+  common model types. 
 License: MIT + file LICENSE
 Depends:
     parsnip
 Imports: 
     cli,
-    rlang (>= 1.1.0)
+    rlang (>= 1.1.0),
+    vctrs
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3

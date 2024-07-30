@@ -18,7 +18,7 @@
 #' x <- matrix(rnorm(300), ncol = 3)
 #' y <- sample(1:4, size = 100, replace = TRUE)
 #'
-#' m <- linfa_decision_tree(x, y)
+#' m <- .linfa_decision_tree(x, y)
 #' m
 #'
 #' predict(m, matrix(rnorm(12), ncol = 3))
@@ -53,7 +53,7 @@
 }
 
 #' @export
-predict.linfa_decision_tree <- function(object, newdata) {
+predict.linfa_decision_tree <- function(object, newdata, ...) {
   predict_decision_tree(object$fit, c(newdata), n_features = ncol(object$ptype))
 }
 
@@ -86,7 +86,7 @@ make_decision_tree_linfa <- function() {
     )
   )
 
-  set_model_arg(
+  parsnip::set_model_arg(
     model = "decision_tree",
     eng = "linfa",
     parsnip = "cost_complexity",
