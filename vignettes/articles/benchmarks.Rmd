@@ -4,8 +4,6 @@ title: "Benchmarks"
 
 ```{r}
 #| echo: false
-knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
-
 if (file.exists("vignettes/articles/timings/linear_reg_timings.rda")) {
   eval_fits <- FALSE
   # read outputs in from source:
@@ -33,6 +31,7 @@ While this article will benchmark fit times, it doesn't measure model performanc
 First, loading tidymodels and the rinfa extension package:
 
 ```{r setup, eval = eval_fits}
+rlang::abort(paste0("Current wd: ", getwd()))
 library(tidymodels)
 library(rinfa)
 ```
