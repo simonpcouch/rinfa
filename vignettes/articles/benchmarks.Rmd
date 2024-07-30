@@ -4,6 +4,8 @@ title: "Benchmarks"
 
 ```{r}
 #| echo: false
+knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
+
 if (file.exists("vignettes/articles/timings/linear_reg_timings.rda")) {
   eval_fits <- FALSE
   # read outputs in from source:

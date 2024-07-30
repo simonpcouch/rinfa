@@ -26,4 +26,4 @@ Config/rextendr/version: 0.3.1.9000
 URL: https://github.com/simonpcouch/rinfa, https://simonpcouch.github.io/rinfa/
 BugReports: https://github.com/simonpcouch/rinfa/issues
 SystemRequirements: Cargo (Rust's package manager), rustc
-Config/Needs/website: rmarkdown, ggplot2
+Config/Needs/website: rmarkdown, ggplot2, rprojroot
