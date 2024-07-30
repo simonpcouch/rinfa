@@ -28,7 +28,7 @@ devtools::install_github("simonpcouch/rinfa")
 ## Example
 
 ``` r
-x <- matrix(rnorm(3e7), ncol = 3)
+x <- matrix(rnorm(3e7), ncol = 3, dimnames = list(NULL, paste0("X", 1:3)))
 y <- rnorm(1e7)
 
 dat <- cbind(as.data.frame(x), y)
@@ -37,14 +37,14 @@ system.time(
   lm(y ~ ., dat)
 )
 #>    user  system elapsed 
-#>   1.093   0.244   1.372
+#>   1.344   0.286   1.663
 
 system.time(
   # lm()'s speedy friend
   lm.fit(x, y)
 )
 #>    user  system elapsed 
-#>   0.386   0.032   0.424
+#>   0.469   0.033   0.503
 
 library(rinfa)
 
@@ -52,7 +52,17 @@ system.time({
   .linfa_linear_reg(x, y)
 })
 #>    user  system elapsed 
-#>   0.161   0.076   0.239
+#>   0.218   0.086   0.307
+```
+
+To use rinfa with tidymodels, set the modeling engine to `"linfa"`:
+
+``` r
+# using the formula interface:
+linfa_fit <- fit(linear_reg(engine = "linfa"), y ~ ., dat)
+
+# using the (more performant, in this case) XY interface:
+linfa_fit_xy <- fit_xy(linear_reg(engine = "linfa"), x = x, y = y)
 ```
 
 ## Available implementations
