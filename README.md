@@ -9,6 +9,7 @@
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/rinfa)](https://CRAN.R-project.org/package=rinfa)
+[![R-CMD-check](https://github.com/simonpcouch/rinfa/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/simonpcouch/rinfa/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 The goal of rinfa is to provide Rust bindings for parsnip model
@@ -36,14 +37,14 @@ system.time(
   lm(y ~ ., dat)
 )
 #>    user  system elapsed 
-#>   1.068   0.182   1.266
+#>   1.093   0.244   1.372
 
 system.time(
   # lm()'s speedy friend
   lm.fit(x, y)
 )
 #>    user  system elapsed 
-#>   0.384   0.031   0.416
+#>   0.386   0.032   0.424
 
 library(rinfa)
 
@@ -51,7 +52,7 @@ system.time({
   .linfa_linear_reg(x, y)
 })
 #>    user  system elapsed 
-#>   0.161   0.065   0.234
+#>   0.161   0.076   0.239
 ```
 
 ## Available implementations
