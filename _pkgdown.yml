@@ -2,3 +2,10 @@ url: https://simonpcouch.github.io/rinfa/
 template:
   bootstrap: 5
 
+navbar:
+ structure:
+   left: [benchmarks]
+ components:
+   benchmarks:
+     text: Benchmarks
+     href: articles/benchmarks.html
