@@ -57,8 +57,13 @@ system.time(
 )
 
 system.time(
-  # lm()'s speedy friend
+  # lm()'s speedy friend, from base R
   lm.fit(x, y)
+)
+
+system.time(
+  # lm()'s even speedier friend, from base R
+  .lm.fit(x, y)
 )
 
 library(rinfa)
