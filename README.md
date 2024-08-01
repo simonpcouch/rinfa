@@ -37,21 +37,14 @@ system.time(
   lm(y ~ ., dat)
 )
 #>    user  system elapsed 
-#>   1.340   0.227   1.574
+#>   1.554   0.229   1.791
 
 system.time(
   # lm()'s speedy friend, from base R
-  lm.fit(x, y)
-)
-#>    user  system elapsed 
-#>   0.476   0.031   0.508
-
-system.time(
-  # lm()'s even speedier friend, from base R
   .lm.fit(x, y)
 )
 #>    user  system elapsed 
-#>   0.401   0.023   0.426
+#>   0.398   0.021   0.420
 
 library(rinfa)
 
@@ -59,7 +52,7 @@ system.time({
   .linfa_linear_reg(x, y)
 })
 #>    user  system elapsed 
-#>   0.217   0.081   0.301
+#>   0.208   0.083   0.297
 ```
 
 To use rinfa with tidymodels, set the modeling engine to `"linfa"`:
