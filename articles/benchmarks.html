@@ -78,6 +78,7 @@ computational and predictive performance in context.</p>
 <li>Multinomial regression</li>
 <li>Decision trees</li>
 <li>Naive bayes</li>
+<li>Support vector machines</li>
 </ul>
 <p>For each of those model types, we’ll benchmark the time to fit the
 model to a dataset of varying size, and compare the time-to-fit across
@@ -216,6 +217,32 @@ frame.</p>
 <span>  <span class="fu">scale_x_log10</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">labs</span><span class="op">(</span>x <span class="op">=</span> <span class="st">"# rows"</span>, y <span class="op">=</span> <span class="st">"Log(Fit time, seconds)"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="benchmarks_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
+</div>
+<div class="section level2">
+<h2 id="naive-bayes">Naive bayes<a class="anchor" aria-label="anchor" href="#naive-bayes"></a>
+</h2>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">naive_Bayes_timings</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu">ggplot</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">n_row</span>, y <span class="op">=</span> <span class="va">timing</span>, colour <span class="op">=</span> <span class="va">engine</span>, group <span class="op">=</span> <span class="va">engine</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_line</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">scale_y_log10</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">scale_x_log10</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>x <span class="op">=</span> <span class="st">"# rows"</span>, y <span class="op">=</span> <span class="st">"Log(Fit time, seconds)"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="benchmarks_files/figure-html/unnamed-chunk-9-1.png" width="700"></p>
+</div>
+<div class="section level2">
+<h2 id="support-vector-machines">Support vector machines<a class="anchor" aria-label="anchor" href="#support-vector-machines"></a>
+</h2>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">svm_linear_timings</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu">ggplot</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">n_row</span>, y <span class="op">=</span> <span class="va">timing</span>, colour <span class="op">=</span> <span class="va">engine</span>, group <span class="op">=</span> <span class="va">engine</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_line</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">scale_y_log10</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">scale_x_log10</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>x <span class="op">=</span> <span class="st">"# rows"</span>, y <span class="op">=</span> <span class="st">"Log(Fit time, seconds)"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="benchmarks_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
