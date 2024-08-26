@@ -52,15 +52,17 @@ y <- rnorm(1e7)
 
 dat <- cbind(as.data.frame(x), y)
 
+# the usual formula interface
 system.time(
   lm(y ~ ., dat)
 )
 
 system.time(
-  # lm()'s speedy friend, from base R
+  # lm()'s speedy friend (still from base R)
   .lm.fit(x, y)
 )
 
+# rinfa's implementation
 library(rinfa)
 
 system.time({

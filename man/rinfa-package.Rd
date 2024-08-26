@@ -12,6 +12,7 @@ A 'parsnip' extension that interfaces with the 'Rust' machine learning library '
 Useful links:
 \itemize{
   \item \url{https://github.com/simonpcouch/rinfa}
+  \item \url{https://simonpcouch.github.io/rinfa/}
   \item Report bugs at \url{https://github.com/simonpcouch/rinfa/issues}
 }
 

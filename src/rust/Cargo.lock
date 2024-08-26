@@ -214,6 +214,7 @@ source = "git+https://github.com/extendr/extendr#24c25ad83f8df44bc60d37f444f151e
 dependencies = [
  "extendr-macros",
  "libR-sys",
+ "ndarray 0.15.6",
  "once_cell",
  "paste",
 ]

@@ -14,7 +14,7 @@ fit_naive_Bayes <- function(x, y, n_features, var_smoothing) .Call(wrap__fit_nai
 
 predict_naive_Bayes <- function(model, x, n_features) .Call(wrap__predict_naive_Bayes, model, x, n_features)
 
-fit_linear_reg <- function(x, y, n_features) .Call(wrap__fit_linear_reg, x, y, n_features)
+fit_linear_reg <- function(x, y) .Call(wrap__fit_linear_reg, x, y)
 
 predict_linear_reg <- function(model, x, n_features) .Call(wrap__predict_linear_reg, model, x, n_features)
 

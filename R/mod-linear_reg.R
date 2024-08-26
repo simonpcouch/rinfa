@@ -27,7 +27,7 @@
   check_x(x, y)
   check_y(y, "regression")
 
-  fit <- fit_linear_reg(c(x), y, ncol(x))
+  fit <- fit_linear_reg(x, y)
 
   structure(
     list(fit = fit, ptype = vctrs::vec_slice(x, 0)),

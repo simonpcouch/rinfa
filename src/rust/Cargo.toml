@@ -9,7 +9,7 @@ name = 'rinfa'
 
 [dependencies]
 # lots of changes since 0.4.0
-extendr-api = { git = "https://github.com/extendr/extendr" }
+extendr-api = { git = "https://github.com/extendr/extendr", features = ["ndarray"] }
 linfa = '*'
 linfa-bayes = "0.7.0"
 linfa-linear = "0.7.0"

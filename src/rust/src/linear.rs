@@ -21,21 +21,13 @@ impl From<FittedLinearRegression<f64>> for linfa_linear_reg {
 }
 
 #[extendr]
-fn fit_linear_reg(x: Vec<f64>, y: Vec<f64>, n_features: i32) -> linfa_linear_reg {
-    let n_features = n_features as usize;
-
-    // Convert Vec<f64> to Array2 for x
-    let x = Array2::from_shape_vec((n_features, x.len() / n_features), x)
-        .expect("Failed to reshape x")
-        .t()
-        .to_owned();
-
-    // Convert Vec<f64> to Array1 for y
-    let y = Array1::from(y);
+fn fit_linear_reg(x: ArrayView2<f64>, y: ArrayView1<f64>) -> linfa_linear_reg {
+    // Convert inputs to linfa-happy formats
+    let x_owned: Array2<f64> = x.to_owned();
+    let y_owned: Array1<f64> = y.to_owned();
 
     // Create a Dataset
-    let dataset = Dataset::new(x, y)
-        .with_feature_names((0..n_features).map(|i| format!("feature_{}", i)).collect());
+    let dataset = Dataset::new(x_owned, y_owned);
 
     let model = LinearRegression::default().fit(&dataset).unwrap();
 

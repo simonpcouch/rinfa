@@ -33,26 +33,28 @@ y <- rnorm(1e7)
 
 dat <- cbind(as.data.frame(x), y)
 
+# the usual formula interface
 system.time(
   lm(y ~ ., dat)
 )
 #>    user  system elapsed 
-#>   1.554   0.229   1.791
+#>   1.097   0.189   1.292
 
 system.time(
-  # lm()'s speedy friend, from base R
+  # lm()'s speedy friend (still from base R)
   .lm.fit(x, y)
 )
 #>    user  system elapsed 
-#>   0.398   0.021   0.420
+#>   0.321   0.022   0.344
 
+# rinfa's implementation
 library(rinfa)
 
 system.time({
   .linfa_linear_reg(x, y)
 })
 #>    user  system elapsed 
-#>   0.208   0.083   0.297
+#>   0.115   0.046   0.161
 ```
 
 To use rinfa with tidymodels, set the modeling engine to `"linfa"`:
@@ -79,4 +81,5 @@ in the following table:
 | naive_Bayes   | linfa  | classification |
 | svm_linear    | linfa  | classification |
 
-To read more about the design of rinfa, see [`R/README.md`](https://github.com/simonpcouch/rinfa/tree/main/R/README.md).
+To read more about the design of rinfa, see
+[`R/README.md`](https://github.com/simonpcouch/rinfa/tree/main/R/README.md).
