@@ -96,7 +96,7 @@ for (engine in engines) {
   if (engine == "glmnet") {
     spec <- spec %>% set_args(penalty = 0)
   }
-  if (engine == "spark") {
+  if (engine %in% c("spark", "keras")) {
     next
   }
   for (n_row in n_rows) {
@@ -179,7 +179,7 @@ for (engine in engines) {
   if (engine == "glmnet") {
     spec <- spec %>% set_args(penalty = 0)
   }
-  if (engine == "spark") {
+  if (engine %in% c("spark", "keras")) {
     next
   }
   for (n_row in n_rows) {
@@ -211,17 +211,12 @@ for (engine in engines) {
       )
   }
 }
-
-save(
-  logistic_reg_timings, 
-  file = "timings/logistic_reg_timings.rda"
-)
 ```
 
 ```{r save-logistic_reg_timings, include = FALSE, eval = eval_fits}
 save(
   logistic_reg_timings, 
-  file = "timings/logistic_reg_timings"
+  file = "timings/logistic_reg_timings.rda"
 )
 ```
 
