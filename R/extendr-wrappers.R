@@ -22,9 +22,9 @@ fit_logistic_reg <- function(x, y) .Call(wrap__fit_logistic_reg, x, y)
 
 predict_logistic_reg <- function(model, x) .Call(wrap__predict_logistic_reg, model, x)
 
-fit_multinom_reg <- function(x, y, n_features) .Call(wrap__fit_multinom_reg, x, y, n_features)
+fit_multinom_reg <- function(x, y) .Call(wrap__fit_multinom_reg, x, y)
 
-predict_multinom_reg <- function(model, x, n_features) .Call(wrap__predict_multinom_reg, model, x, n_features)
+predict_multinom_reg <- function(model, x) .Call(wrap__predict_multinom_reg, model, x)
 
 fit_svm_linear <- function(x, y, n_features, c) .Call(wrap__fit_svm_linear, x, y, n_features, c)
 

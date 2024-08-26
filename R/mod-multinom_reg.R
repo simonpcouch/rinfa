@@ -35,7 +35,7 @@
   }
 
   # TODO: check that there are at least two classes
-  fit <- fit_multinom_reg(c(x), y, ncol(x))
+  fit <- fit_multinom_reg(x, y)
 
   structure(
     list(fit = fit, ptype = vctrs::vec_slice(x, 0)),
@@ -45,7 +45,7 @@
 
 #' @export
 predict.linfa_multinom_reg <- function(object, newdata, ...) {
-  predict_multinom_reg(object$fit, c(newdata), n_features = ncol(object$ptype))
+  predict_multinom_reg(object$fit, newdata)
 }
 
 

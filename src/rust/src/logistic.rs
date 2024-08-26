@@ -64,18 +64,12 @@ impl From<MultiFittedLogisticRegression<f64, usize>> for linfa_multinom_reg {
 }
 
 #[extendr]
-fn fit_multinom_reg(x: Vec<f64>, y: Vec<i32>, n_features: i32) -> linfa_multinom_reg {
-    let n_features = n_features as usize;
-
-    let x = Array2::from_shape_vec((n_features, x.len() / n_features), x)
-        .expect("Failed to reshape x")
-        .t()
-        .to_owned();
+fn fit_multinom_reg(x: ArrayView2<f64>, y: Vec<i32>) -> linfa_multinom_reg {
+    let x: Array2<f64> = x.to_owned();
 
     let y = Array1::from_vec(y.into_iter().map(|v| v as usize).collect());
 
-    let dataset = Dataset::new(x, y)
-        .with_feature_names((0..n_features).map(|i| format!("feature_{}", i)).collect());
+    let dataset = Dataset::new(x, y);
 
     let model = MultiLogisticRegression::default().fit(&dataset).unwrap();
 
@@ -83,13 +77,8 @@ fn fit_multinom_reg(x: Vec<f64>, y: Vec<i32>, n_features: i32) -> linfa_multinom
 }
 
 #[extendr]
-fn predict_multinom_reg(model: &linfa_multinom_reg, x: Vec<f64>, n_features: i32) -> Integers {
-    let n_features = n_features as usize;
-
-    let x = Array2::from_shape_vec((n_features, x.len() / n_features), x)
-        .expect("Failed to reshape x")
-        .t()
-        .to_owned();
+fn predict_multinom_reg(model: &linfa_multinom_reg, x: ArrayView2<f64>) -> Integers {
+    let x: Array2<f64> = x.to_owned();
 
     let preds = model.model.predict(&x);
 
