@@ -10,9 +10,9 @@
 #' @useDynLib rinfa, .registration = TRUE
 NULL
 
-fit_naive_Bayes <- function(x, y, n_features, var_smoothing) .Call(wrap__fit_naive_Bayes, x, y, n_features, var_smoothing)
+fit_naive_Bayes <- function(x, y, var_smoothing) .Call(wrap__fit_naive_Bayes, x, y, var_smoothing)
 
-predict_naive_Bayes <- function(model, x, n_features) .Call(wrap__predict_naive_Bayes, model, x, n_features)
+predict_naive_Bayes <- function(model, x) .Call(wrap__predict_naive_Bayes, model, x)
 
 fit_linear_reg <- function(x, y) .Call(wrap__fit_linear_reg, x, y)
 

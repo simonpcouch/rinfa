@@ -19,22 +19,14 @@ impl From<GaussianNb<f64, usize>> for linfa_naive_Bayes {
 }
 
 #[extendr]
-pub fn fit_naive_Bayes(x: Vec<f64>, y: Vec<i32>, n_features: i32, var_smoothing: f64) -> linfa_naive_Bayes {
-    let n_features = n_features as usize;
-
-    // Convert Vec<f64> to Array2 for x
-    let x = Array2::from_shape_vec((n_features, x.len() / n_features), x)
-        .expect("Failed to reshape x")
-        .t()
-        .to_owned();
+pub fn fit_naive_Bayes(x: ArrayView2<f64>, y: Vec<i32>, var_smoothing: f64) -> linfa_naive_Bayes {
+    let x: Array2<f64> = x.to_owned();
 
     // Convert Vec<i32> to Array1<usize> for y
     let y = Array1::from_vec(y.into_iter().map(|v| v as usize).collect());
 
     // Create a Dataset
-    let dataset = Dataset::new(x, y)
-        .with_feature_names((0..n_features).map(|i| format!("feature_{}", i)).collect());
-
+    let dataset = Dataset::new(x, y);
     let model = GaussianNb::params()
         .var_smoothing(var_smoothing)
         .fit(&dataset)
@@ -44,14 +36,8 @@ pub fn fit_naive_Bayes(x: Vec<f64>, y: Vec<i32>, n_features: i32, var_smoothing:
 }
 
 #[extendr]
-pub fn predict_naive_Bayes(model: &linfa_naive_Bayes, x: Vec<f64>, n_features: i32) -> Integers {
-    let n_features = n_features as usize;
-
-    // Convert Vec<f64> to Array2 for x
-    let x = Array2::from_shape_vec((n_features, x.len() / n_features), x)
-        .expect("Failed to reshape x")
-        .t()
-        .to_owned();
+pub fn predict_naive_Bayes(model: &linfa_naive_Bayes, x: ArrayView2<f64>) -> Integers {
+    let x: Array2<f64> = x.to_owned();
 
     let preds = model.model.predict(&x);
 

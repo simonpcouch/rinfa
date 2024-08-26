@@ -35,9 +35,8 @@
 
   fit <-
     fit_naive_Bayes(
-      c(x),
+      x,
       y,
-      ncol(x),
       var_smoothing = smoothness
     )
 
@@ -49,7 +48,7 @@
 
 #' @export
 predict.linfa_naive_Bayes <- function(object, newdata, ...) {
-  predict_naive_Bayes(object$fit, c(newdata), n_features = ncol(object$ptype))
+  predict_naive_Bayes(object$fit, newdata)
 }
 
 
