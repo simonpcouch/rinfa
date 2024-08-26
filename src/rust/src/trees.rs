@@ -17,23 +17,16 @@ impl From<DecisionTree<f64, usize>> for linfa_decision_tree {
 }
 
 #[extendr]
-pub fn fit_decision_tree(x: Vec<f64>, y: Vec<i32>, n_features: i32,
+pub fn fit_decision_tree(x: ArrayView2<f64>, y: Vec<i32>,
                          min_impurity_decrease: f64,
                          max_depth: i32, min_weight_split: f32) -> linfa_decision_tree {
-    let n_features = n_features as usize;
-
-    // Convert Vec<f64> to Array2 for x
-    let x = Array2::from_shape_vec((n_features, x.len() / n_features), x)
-        .expect("Failed to reshape x")
-        .t()
-        .to_owned();
+    let x: Array2<f64> = x.to_owned();
 
     // Convert Vec<i32> to Array1<usize> for y
     let y = Array1::from_vec(y.into_iter().map(|v| v as usize).collect());
 
     // Create a Dataset
-    let dataset = Dataset::new(x, y)
-        .with_feature_names((0..n_features).map(|i| format!("feature_{}", i)).collect());
+    let dataset = Dataset::new(x, y);
 
     let model = DecisionTree::params()
         .max_depth(Some(max_depth as usize))
@@ -46,14 +39,8 @@ pub fn fit_decision_tree(x: Vec<f64>, y: Vec<i32>, n_features: i32,
 }
 
 #[extendr]
-pub fn predict_decision_tree(model: &linfa_decision_tree, x: Vec<f64>, n_features: i32) -> Integers {
-    let n_features = n_features as usize;
-
-    // Convert Vec<f64> to Array2 for x
-    let x = Array2::from_shape_vec((n_features, x.len() / n_features), x)
-        .expect("Failed to reshape x")
-        .t()
-        .to_owned();
+pub fn predict_decision_tree(model: &linfa_decision_tree, x: ArrayView2<f64>) -> Integers {
+    let x: Array2<f64> = x.to_owned();
 
     let preds = model.model.predict(&x);
 

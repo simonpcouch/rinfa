@@ -38,9 +38,8 @@
 
   fit <-
     fit_decision_tree(
-      c(x),
+      x,
       y,
-      ncol(x),
       min_impurity_decrease = cost_complexity,
       max_depth = tree_depth,
       min_weight_split = min_n
@@ -54,7 +53,7 @@
 
 #' @export
 predict.linfa_decision_tree <- function(object, newdata, ...) {
-  predict_decision_tree(object$fit, c(newdata), n_features = ncol(object$ptype))
+  predict_decision_tree(object$fit, newdata)
 }
 
 
