@@ -19,18 +19,12 @@ impl From<Svm<f64, bool>> for linfa_svm_linear {
 }
 
 #[extendr]
-fn fit_svm_linear(x: Vec<f64>, y: Vec<i32>, n_features: i32, c: f64) -> linfa_svm_linear {
-    let n_features = n_features as usize;
-
-    let x = Array2::from_shape_vec((n_features, x.len() / n_features), x)
-        .expect("Failed to reshape x")
-        .t()
-        .to_owned();
+fn fit_svm_linear(x: ArrayView2<f64>, y: Vec<i32>, c: f64) -> linfa_svm_linear {
+    let x: Array2<f64> = x.to_owned();
 
     let y = Array1::from_vec(y.into_iter().map(|v| v > 0).collect());
 
-    let dataset = Dataset::new(x, y)
-        .with_feature_names((0..n_features).map(|i| format!("feature_{}", i)).collect());
+    let dataset = Dataset::new(x, y);
 
     let model = Svm::<f64, bool>::params()
         .linear_kernel()
@@ -42,13 +36,8 @@ fn fit_svm_linear(x: Vec<f64>, y: Vec<i32>, n_features: i32, c: f64) -> linfa_sv
 }
 
 #[extendr]
-fn predict_svm_linear(model: &linfa_svm_linear, x: Vec<f64>, n_features: i32) -> Integers {
-    let n_features = n_features as usize;
-
-    let x = Array2::from_shape_vec((n_features, x.len() / n_features), x)
-        .expect("Failed to reshape x")
-        .t()
-        .to_owned();
+fn predict_svm_linear(model: &linfa_svm_linear, x: ArrayView2<f64>) -> Integers {
+    let x: Array2<f64> = x.to_owned();
 
     let preds = model.model.predict(&x);
 

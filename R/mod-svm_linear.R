@@ -38,7 +38,7 @@
     y <- as.integer(y) - 1L
   }
 
-  fit <- fit_svm_linear(c(x), y, ncol(x), c = cost)
+  fit <- fit_svm_linear(x, y, c = cost)
 
   structure(
     list(fit = fit, ptype = vctrs::vec_slice(x, 0)),
@@ -48,7 +48,7 @@
 
 #' @export
 predict.linfa_svm_linear <- function(object, newdata, ...) {
-  predict_svm_linear(object$fit, c(newdata), n_features = ncol(object$ptype))
+  predict_svm_linear(object$fit, newdata)
 }
 
 # nocov start

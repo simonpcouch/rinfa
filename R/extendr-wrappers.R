@@ -26,9 +26,9 @@ fit_multinom_reg <- function(x, y) .Call(wrap__fit_multinom_reg, x, y)
 
 predict_multinom_reg <- function(model, x) .Call(wrap__predict_multinom_reg, model, x)
 
-fit_svm_linear <- function(x, y, n_features, c) .Call(wrap__fit_svm_linear, x, y, n_features, c)
+fit_svm_linear <- function(x, y, c) .Call(wrap__fit_svm_linear, x, y, c)
 
-predict_svm_linear <- function(model, x, n_features) .Call(wrap__predict_svm_linear, model, x, n_features)
+predict_svm_linear <- function(model, x) .Call(wrap__predict_svm_linear, model, x)
 
 fit_decision_tree <- function(x, y, n_features, min_impurity_decrease, max_depth, min_weight_split) .Call(wrap__fit_decision_tree, x, y, n_features, min_impurity_decrease, max_depth, min_weight_split)
 
