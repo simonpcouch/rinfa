@@ -37,7 +37,7 @@
   }
 
   # TODO: check that there are not more than two classes
-  fit <- fit_logistic_reg(c(x), y, ncol(x))
+  fit <- fit_logistic_reg(x, y)
 
   structure(
     list(fit = fit, ptype = vctrs::vec_slice(x, 0)),
@@ -47,7 +47,7 @@
 
 #' @export
 predict.linfa_logistic_reg <- function(object, newdata, ...) {
-  predict_logistic_reg(object$fit, c(newdata), n_features = ncol(object$ptype))
+  predict_logistic_reg(object$fit, newdata)
 }
 
 # nocov start
