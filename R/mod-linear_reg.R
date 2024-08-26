@@ -37,7 +37,7 @@
 
 #' @export
 predict.linfa_linear_reg <- function(object, newdata, ...) {
-  predict_linear_reg(object$fit, c(newdata), n_features = ncol(object$ptype))
+  predict_linear_reg(object$fit, newdata)
 }
 
 # nocov start

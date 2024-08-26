@@ -23,11 +23,11 @@ impl From<FittedLinearRegression<f64>> for linfa_linear_reg {
 #[extendr]
 fn fit_linear_reg(x: ArrayView2<f64>, y: ArrayView1<f64>) -> linfa_linear_reg {
     // Convert inputs to linfa-happy formats
-    let x_owned: Array2<f64> = x.to_owned();
-    let y_owned: Array1<f64> = y.to_owned();
+    let x: Array2<f64> = x.to_owned();
+    let y: Array1<f64> = y.to_owned();
 
     // Create a Dataset
-    let dataset = Dataset::new(x_owned, y_owned);
+    let dataset = Dataset::new(x, y);
 
     let model = LinearRegression::default().fit(&dataset).unwrap();
 
@@ -35,14 +35,8 @@ fn fit_linear_reg(x: ArrayView2<f64>, y: ArrayView1<f64>) -> linfa_linear_reg {
 }
 
 #[extendr]
-fn predict_linear_reg(model: &linfa_linear_reg, x: Vec<f64>, n_features: i32) -> Doubles {
-    let n_features = n_features as usize;
-
-    // Convert Vec<f64> to Array2 for x
-    let x = Array2::from_shape_vec((n_features, x.len() / n_features), x)
-        .expect("Failed to reshape x")
-        .t()
-        .to_owned();
+fn predict_linear_reg(model: &linfa_linear_reg, x: ArrayView2<f64>) -> Doubles {
+    let x: Array2<f64> = x.to_owned();
 
     let preds = model.model.predict(&x);
     let preds = preds.into_raw_vec();

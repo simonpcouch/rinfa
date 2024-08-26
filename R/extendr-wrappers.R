@@ -16,7 +16,7 @@ predict_naive_Bayes <- function(model, x, n_features) .Call(wrap__predict_naive_
 
 fit_linear_reg <- function(x, y) .Call(wrap__fit_linear_reg, x, y)
 
-predict_linear_reg <- function(model, x, n_features) .Call(wrap__predict_linear_reg, model, x, n_features)
+predict_linear_reg <- function(model, x) .Call(wrap__predict_linear_reg, model, x)
 
 fit_logistic_reg <- function(x, y, n_features) .Call(wrap__fit_logistic_reg, x, y, n_features)
 
