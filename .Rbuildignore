@@ -2,6 +2,7 @@
 ^\.Rproj\.user$
 ^LICENSE\.md$
 ^README\.Rmd$
+R/README.md
 ^cran-comments\.md$
 ^src/\.cargo$
 ^vignettes/articles$

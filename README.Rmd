@@ -93,3 +93,5 @@ dplyr::anti_join(
 ) %>%
   knitr::kable()
 ```
+
+To read more about the design of rinfa, see [`R/README.md`](https://github.com/simonpcouch/rinfa/tree/main/R/README.md).

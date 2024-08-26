@@ -78,3 +78,5 @@ in the following table:
 | multinom_reg  | linfa  | classification |
 | naive_Bayes   | linfa  | classification |
 | svm_linear    | linfa  | classification |
+
+To read more about the design of rinfa, see [`R/README.md`](https://github.com/simonpcouch/rinfa/tree/main/R/README.md).
